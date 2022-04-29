@@ -26,8 +26,18 @@ function MainLayout() {
         bg="bg-canvas"
         overflowY="auto"
       >
-        {isDesktop ? <Sidebar /> : <Navbar />}
-        <Content />
+        {isDesktop ? <Sidebar /> : null}
+        <Box
+          direction={{
+            base: "row",
+            lg: "column",
+          }}
+          bg="bg-canvas"
+          flex="1"
+        >
+          <Navbar />
+          <Content />
+        </Box>
       </Flex>
     );
   };
@@ -36,3 +46,30 @@ function MainLayout() {
 }
 
 export default MainLayout;
+
+{
+  /* <Box as="section" height="100vh" overflowY="auto">
+<Sidebar />
+<Flex
+  as="section"
+  direction={{
+    base: "column",
+    lg: "row",
+  }}
+  height="100vh"
+  bg="bg-canvas"
+  overflowY="auto"
+>
+  {isDesktop ? (
+    <>
+      <Navbar />
+      <Content />
+    </>
+  ) : (
+    <>
+      <Content />
+    </>
+  )}
+</Flex>
+</Box>  */
+}

@@ -1,32 +1,17 @@
-import { Icon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Progress,
-  Spacer,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import { signOut } from "firebase/auth";
+import { Divider, Flex, Spacer, Stack, Progress } from "@chakra-ui/react";
 import * as React from "react";
 import {
-  FiBarChart2,
-  FiBookmark,
-  FiCheckSquare,
   FiHelpCircle,
   FiHome,
-  FiSearch,
   FiSettings,
-  FiUsers,
   FiLogOut,
+  FiRefreshCcw,
+  FiZap,
+  FiServer,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+
+import { signOut } from "firebase/auth";
 import { auth } from "../../Config/firebase";
 import { NavButton } from "../AppComponents/AppButtonNavBar";
 import { Logo } from "../AppComponents/LogoComponent";
@@ -63,11 +48,11 @@ export const Sidebar = () => {
         base: "4",
         sm: "6",
       }}
+      shadow="xl"
     >
       <Stack justify="space-between" spacing="1">
         <Stack
           spacing={{
-            base: "5",
             sm: "6",
           }}
           shouldWrapChildren
@@ -81,15 +66,20 @@ export const Sidebar = () => {
           />
           <Divider borderColor="bg-accent-subtle" />
           <Stack spacing="1">
-            <NavButton label="Home" icon={FiHome} />
+            {/* <NavButton label="Home" icon={FiHome} /> */}
             <NavButton
               label="Dashboard"
-              icon={FiBarChart2}
+              icon={FiHome}
               aria-current="page"
+              onClick={() => navigate("/dashboard")}
             />
-            <NavButton label="Tasks" icon={FiCheckSquare} />
-            <NavButton label="Bookmarks" icon={FiBookmark} />
-            <NavButton label="Users" icon={FiUsers} />
+            <NavButton
+              label="Integration"
+              icon={FiServer}
+              onClick={() => navigate("/integration")}
+            />
+            <NavButton label="Zaps" icon={FiZap} />
+            <NavButton label="Zaps History" icon={FiRefreshCcw} />
           </Stack>
         </Stack>
         <Stack
@@ -101,12 +91,12 @@ export const Sidebar = () => {
           <Stack spacing="1">
             <NavButton label="Help" icon={FiHelpCircle} />
             <NavButton label="Settings" icon={FiSettings} />
-
-            <NavButton
+            <Progress value={2000} max={10000} />
+            {/* <NavButton
               onClick={() => handleLogOut()}
               label="Logout"
               icon={FiLogOut}
-            />
+            /> */}
           </Stack>
         </Stack>
       </Stack>
