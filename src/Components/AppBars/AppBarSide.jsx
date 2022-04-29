@@ -1,4 +1,5 @@
-import { Divider, Flex, Spacer, Stack, Progress } from "@chakra-ui/react";
+import { Divider, Flex, Spacer, Stack, Button,
+	Center,Progress } from "@chakra-ui/react";
 import * as React from "react";
 import {
   FiHelpCircle,
@@ -58,13 +59,11 @@ export const Sidebar = () => {
           shouldWrapChildren
         >
           <Logo />
-          <Spacer />
-          <UserProfile
-            name="Christoph Winston"
-            image="https://tinyurl.com/yhkm2ek8"
-            email="chris@chakra-ui.com"
-          />
-          <Divider borderColor="bg-accent-subtle" />
+          
+          <Spacer/>
+		  	<Center>
+			  <Button width='100%' bg='green' color='white'>New Appgregation</Button>
+			</Center>
           <Stack spacing="1">
             {/* <NavButton label="Home" icon={FiHome} /> */}
             <NavButton
@@ -78,8 +77,8 @@ export const Sidebar = () => {
               icon={FiServer}
               onClick={() => navigate("/integration")}
             />
-            <NavButton label="Zaps" icon={FiZap} />
-            <NavButton label="Zaps History" icon={FiRefreshCcw} />
+            <NavButton label="Appgeregate" icon={FiZap} onClick={() => navigate("/appgregate")}/>
+            <NavButton label="Appgregate History" icon={FiRefreshCcw} />
           </Stack>
         </Stack>
         <Stack
@@ -92,6 +91,14 @@ export const Sidebar = () => {
             <NavButton label="Help" icon={FiHelpCircle} />
             <NavButton label="Settings" icon={FiSettings} />
             <Progress value={2000} max={10000} />
+
+			<Divider borderColor="bg-accent-subtle" />
+
+			<UserProfile
+            name="Christoph Winston"
+            image="https://tinyurl.com/yhkm2ek8"
+            email="chris@chakra-ui.com"
+          />
             {/* <NavButton
               onClick={() => handleLogOut()}
               label="Logout"

@@ -7,6 +7,8 @@ import IntegrationPage from "./Pages/IntegrationPage";
 import LoginPage from "./Pages/LoginPage";
 import SignUpPage from "./Pages/SignUpPage";
 import SignUpProject from "./Pages/SignUpProject";
+import HomePage from "./Pages/HomePage";
+import AppgregatePage from "./Pages/AppgregatePage";
 
 function App() {
   const [status, setStatus] = useState("");
@@ -19,9 +21,11 @@ function App() {
   return (
     <Routes>
       <>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="project" element={<SignUpProject />} />
+        <Route path="appgregate" element={<AppgregatePage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/integration" element={<IntegrationPage />} />
 
