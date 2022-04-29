@@ -6,7 +6,7 @@ import {
 	Stack, Flex, Center,useColorModeValue,Icon,
 	Text,ButtonGroup,IconButton, Image,
 	useColorModeValue as mode,
-	VisuallyHidden, Container, useBreakpointValue,Modal,
+	VisuallyHidden, Container, useBreakpointValue,Modal,Input,
 	ModalOverlay,
 	ModalContent,
 	ModalHeader,
@@ -15,10 +15,12 @@ import {
 	ModalCloseButton,
   } from '@chakra-ui/react'
 
-  import { AppCardCategory } from "../AppComponents/AppCardCategory";
+import { AppCardCategory } from "../AppComponents/AppCardCategory";
+import AppCardApps from "../AppComponents/AppCardApps";
+import AppCardIntegration from "../AppComponents/AppCardIntegration"
 
 function AppBarIntegration() {
-	const [modal,setModal]=useState(false);
+	const [title,setTitle]=useState('');
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -28,26 +30,35 @@ function AppBarIntegration() {
 	px={{ base: '4', md: '8', lg: '12' }}
 	py={{ base: '6', md: '8', lg: '12' }}
 >
-	<Stack spacing={{ base: '6', md: '8', lg: '12' }}>
-	<Flex
-		justify="space-between"
+	<Flex 
+		justify='space-between'
 		align={{ base: 'start', md: 'center' }}
 		direction={{ base: 'column', md: 'row' }}
 	>
 		<Heading size="lg" mb={{ base: '3', md: '0' }}>
-		Appgregator by Categories
+		Appgregator integration
 		</Heading>
-		<Button mt={3}  onClick={onOpen}>
-        Trigger modal
-      </Button>
+		<Box display='flex' flexDirection='column'>
+			<Button
+			size='md'
+			height='48px'
+			maxW='300px'
+			width='300px'
+			bg='yellow'
+			onClick={onOpen}
+			>
+			Add Integration
+			</Button>
+			<Input placeholder='search' width ='300px' maxW='300'/>
+		</Box>
 		
 	</Flex>
-	<SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} gap={{ base: '4', md: '6', lg: '8' }}>
-		{categories.map((category) => (
-		<AppCardCategory key={category.name} category={category} />
-		))}
-	</SimpleGrid>
-	</Stack>
+	<Box>
+		<AppCardIntegration/>
+		<AppCardIntegration/>
+		<AppCardIntegration/>
+		<AppCardIntegration/>
+	</Box>
 	<Modal
         onClose={onClose}
         isOpen={isOpen}
@@ -59,11 +70,10 @@ function AppBarIntegration() {
     />
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Search Apps <Input placeholder='search App' m='2'/></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {/* <Lorem count={15} /> */}
-			<Text>ini list2nya guys</Text>
+			<AppCardApps/>
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>

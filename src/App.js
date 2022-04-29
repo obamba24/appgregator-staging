@@ -9,6 +9,7 @@ import SignUpPage from "./Pages/SignUpPage";
 import SignUpProject from "./Pages/SignUpProject";
 import HomePage from "./Pages/HomePage";
 import AppgregatePage from "./Pages/AppgregatePage";
+import HistoryPage from "./Pages/HistoryPage";
 
 function App() {
   const [status, setStatus] = useState("");
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="project" element={<SignUpProject />} />
         <Route path="appgregate" element={<AppgregatePage />} />
+        <Route path="history" element={<HistoryPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/integration" element={<IntegrationPage />} />
 

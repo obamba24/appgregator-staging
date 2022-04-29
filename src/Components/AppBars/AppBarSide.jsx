@@ -77,8 +77,14 @@ export const Sidebar = () => {
               icon={FiServer}
               onClick={() => navigate("/integration")}
             />
-            <NavButton label="Appgeregate" icon={FiZap} onClick={() => navigate("/appgregate")}/>
-            <NavButton label="Appgregate History" icon={FiRefreshCcw} />
+            <NavButton label="Appgeregate" 
+			icon={FiZap} 
+			onClick={() => navigate("/appgregate")}
+			/>
+
+            <NavButton label="Appgregate History" 
+			icon={FiRefreshCcw} 
+			onClick={() => navigate("/history")}/>
           </Stack>
         </Stack>
         <Stack
