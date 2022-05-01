@@ -8,7 +8,7 @@ import {
   FiLogOut,
   FiRefreshCcw,
   FiZap,
-  FiServer,FiUsers,FiKey
+  FiServer,FiUsers,FiKey,FiDollarSign
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
@@ -95,7 +95,7 @@ export const Sidebar = () => {
 			onClick={() => navigate("/history")}/>
 
             <NavButton label="Billing" 
-			icon={FiKey} 
+			icon={FiDollarSign} 
 			onClick={() => navigate("/history")}/>
           </Stack>
         </Stack>
