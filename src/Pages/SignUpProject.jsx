@@ -28,8 +28,9 @@ function SignUpProject() {
 
   const handleRegister = async () => {
     try {
-      const docRef = await setDoc(doc(db, "projects", project), {
+      const docRef = await setDoc(doc(db, "appgregator_projects", project), {
         projects: project,
+		master:[email],
         user: [email],
       });
       console.log("Document written with ID: ", docRef);

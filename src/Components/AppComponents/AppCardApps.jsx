@@ -1,27 +1,63 @@
-import { Box ,Image,Heading,Stack,Text,SimpleGrid, Badge} from '@chakra-ui/react'
-import React from 'react'
+import { Box ,Image,Heading,Stack,Text,SimpleGrid, Badge, Spinner, Center} from '@chakra-ui/react'
+import React,{useState,useEffect} from 'react'
+import { doc, getDoc } from "firebase/firestore";
+import {db} from "../../Config/firebase"
 
 function AppCardApps() {
+	const [data,setData]=useState('')
+
+	const getData= async ()=>{
+		const docRef = doc(db, "appgregator_display", "app_list");
+		const docSnap = await getDoc(docRef);
+		
+		if (docSnap.exists()) {
+			const data = docSnap.data();
+
+		  console.log("Document data:", data.data);
+		  
+		  setData(data.data)
+		} else {
+		  // doc.data() will be undefined in this case
+		  console.log("No such document!");
+		}
+	}
+
+	const AppList = ()=>{
+		if(!data) return <Center><Spinner/></Center>
+		return data.map((data) => (
+			<Box key={Math.random()} display='flex' flexDirection='row' alignItems='center'>
+			<Image src={data.image} maxW='50px' border='1px'/>
+			<Heading p='2' size='md'>{data.name}</Heading>
+			{
+			data.status!='Standart'?
+				<Badge fontSize='xx-small' colorScheme='yellow'>{data.status}</Badge>
+		   	:
+		   	<></>
+			}
+			</Box>
+		   ))
+	}
+
+	useEffect(() => {
+		getData();
+	  return () => {
+		setData('')
+	  }
+	}, [])
+	
   return (
 	<Box>
 		<SimpleGrid columns={{ base: 2}} 
 		gap={{ base: '4'}}>
 
-			{data.map((data) => (
-			 <Box key={Math.random()} display='flex' flexDirection='row' alignItems='center'>
-			 <Image src={data.image}/>
-			 <Heading p='2' size='md'>{data.title}</Heading>
-			 {data.status!='Standart'?
-			 <Badge fontSize='xx-small' colorScheme='yellow'>{data.status}</Badge>
-			:
-			<></>}
-		 </Box>
-			))}
+			<AppList/>
+			
+			
 		</SimpleGrid>		
 	</Box>
   )
 }
-const data=
+const datsa=
 [
 	{
 		id:1,

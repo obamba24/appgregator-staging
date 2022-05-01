@@ -1,9 +1,9 @@
 import React from 'react'
 
-function SendgridBar() {
+function Sendgrid() {
   return (
 	<div>SendgridBar</div>
   )
 }
 
-export default SendgridBar
+export default Sendgrid

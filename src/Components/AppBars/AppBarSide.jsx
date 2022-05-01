@@ -8,7 +8,7 @@ import {
   FiLogOut,
   FiRefreshCcw,
   FiZap,
-  FiServer,
+  FiServer,FiUsers,FiKey
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
@@ -82,8 +82,20 @@ export const Sidebar = () => {
 			onClick={() => navigate("/appgregate")}
 			/>
 
-            <NavButton label="Appgregate History" 
+			<NavButton label="Appgregate History" 
 			icon={FiRefreshCcw} 
+			onClick={() => navigate("/history")}/>
+
+            <NavButton label="User" 
+			icon={FiUsers} 
+			onClick={() => navigate("/history")}/>
+
+            <NavButton label="API key" 
+			icon={FiKey} 
+			onClick={() => navigate("/history")}/>
+
+            <NavButton label="Billing" 
+			icon={FiKey} 
 			onClick={() => navigate("/history")}/>
           </Stack>
         </Stack>
