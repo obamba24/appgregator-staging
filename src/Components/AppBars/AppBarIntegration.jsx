@@ -38,7 +38,7 @@ function AppBarIntegration() {
 		<Heading size="lg" mb={{ base: '3', md: '0' }}>
 		Appgregator integration
 		</Heading>
-		<Box display='flex' flexDirection='column'>
+		<Box alignSelf='center'>
 			<Button
 			size='md'
 			height='48px'
@@ -49,10 +49,9 @@ function AppBarIntegration() {
 			>
 			Add Integration
 			</Button>
-			<Input placeholder='search' width ='300px' maxW='300'/>
 		</Box>
-		
 	</Flex>
+	<Box><Input placeholder='search' width ='300px' maxW='300'/></Box>
 	<Box>
 		<AppCardIntegration/>
 		<AppCardIntegration/>

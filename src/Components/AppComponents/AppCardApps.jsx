@@ -2,6 +2,7 @@ import { Box ,Image,Heading,Stack,Text,SimpleGrid, Badge, Spinner, Center} from 
 import React,{useState,useEffect} from 'react'
 import { doc, getDoc } from "firebase/firestore";
 import {db} from "../../Config/firebase"
+import { Link } from 'react-router-dom';
 
 function AppCardApps() {
 	const [data,setData]=useState('')
@@ -25,7 +26,8 @@ function AppCardApps() {
 	const AppList = ()=>{
 		if(!data) return <Center><Spinner/></Center>
 		return data.map((data) => (
-			<Box key={Math.random()} display='flex' flexDirection='row' alignItems='center'>
+			<Link key={Math.random()} to={`/integration/${data.name}`}>
+			<Box  display='flex' flexDirection='row' alignItems='center'>
 			<Image src={data.image} maxW='50px' border='1px'/>
 			<Heading p='2' size='md'>{data.name}</Heading>
 			{
@@ -35,6 +37,7 @@ function AppCardApps() {
 		   	<></>
 			}
 			</Box>
+			</Link>
 		   ))
 	}
 

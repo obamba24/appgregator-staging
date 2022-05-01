@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
+import AppBarConnect from "../Components/AppBars/AppBarConnect";
+import MainLayout from "../Components/Layouts/MainLayout";
 
 function IntegrationPlatformPage() {
-  return (
-	<div>IntegrationPlatformPage</div>
-  )
+  const { AppLayout } = MainLayout();
+
+  return <>{AppLayout(AppBarConnect)}</>;
 }
 
-export default IntegrationPlatformPage
+export default IntegrationPlatformPage;
