@@ -1,12 +1,17 @@
-import { Box, Center, Heading, Image, Input, Spinner, Text } from '@chakra-ui/react';
+import { Box, ButtonGroup,Button,IconButton,Center, Heading, Image, Input, Spinner, Text } from '@chakra-ui/react';
 import React, {useEffect,useState} from 'react'
 import { useParams } from 'react-router-dom'
+import {FiChevronsLeft} from "react-icons/fi";
+import { useNavigate } from 'react-router-dom';
+
 
 import Sendgrid from '../AppBarIntegration/Sendgrid';
 import Midtrans from '../AppBarIntegration/Midtrans';
 
 function AppBarConnect() {
 	const param = useParams();
+	const navigate = useNavigate();
+
 
 	const AppRegister =()=>{
 		if (!param.platform) return <Spinner/>
@@ -21,8 +26,15 @@ function AppBarConnect() {
 		  <Center>
 			  <Box>
 				<Box p='2'>
-					<Heading>Connect to {param.platform}</Heading>
-					<Image src='' />
+					<Box>
+						<ButtonGroup size='sm' isAttached variant='outline' onClick={() => navigate(-1)}>
+						<IconButton aria-label='Back' icon={<FiChevronsLeft />} />
+						<Button mr='-px'>Back</Button>
+						</ButtonGroup>
+					</Box>
+					<Box paddingLeft='2'>
+						<Heading>Connect to {param.platform}</Heading>
+					</Box>
 				</Box>
 				<Box>
 					<AppRegister/>

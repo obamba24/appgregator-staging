@@ -1,4 +1,4 @@
-import { Divider, Flex, Spacer, Stack, Button,
+import { Divider, Flex,Text, Spacer, Stack, Button,
 	Center,Progress } from "@chakra-ui/react";
 import * as React from "react";
 import {
@@ -86,7 +86,7 @@ export const Sidebar = () => {
 			icon={FiRefreshCcw} 
 			onClick={() => navigate("/history")}/>
 
-            <NavButton label="User" 
+            <NavButton label="Users & Projects" 
 			icon={FiUsers} 
 			onClick={() => navigate("/history")}/>
 
@@ -106,10 +106,11 @@ export const Sidebar = () => {
           }}
         >
           <Stack spacing="1">
-            <NavButton label="Help" icon={FiHelpCircle} />
+            <NavButton label="API docs" icon={FiHelpCircle} />
             <NavButton label="Settings" icon={FiSettings} />
-            <Progress value={2000} max={10000} />
 
+            <Progress value={2000} max={10000} />
+		  	<Text>$49 balance</Text>
 			<Divider borderColor="bg-accent-subtle" />
 
 			<UserProfile

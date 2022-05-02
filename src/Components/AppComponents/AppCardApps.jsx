@@ -13,12 +13,9 @@ function AppCardApps() {
 		
 		if (docSnap.exists()) {
 			const data = docSnap.data();
-
-		  console.log("Document data:", data.data);
-		  
-		  setData(data.data)
+		  	console.log("Document data:", data.data);
+		  	setData(data.data)
 		} else {
-		  // doc.data() will be undefined in this case
 		  console.log("No such document!");
 		}
 	}
