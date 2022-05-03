@@ -24,7 +24,7 @@ function AppCardApps() {
 		if(!data) return <Center><Spinner/></Center>
 		return data.map((data) => (
 			<Link key={Math.random()} to={`/integration/${data.name}`}>
-			<Box  display='flex' flexDirection='row' alignItems='center'>
+			<Box  display='flex' flexDirection='row' alignItems='center' maxWidth='800px'>
 			<Image src={data.image} maxW='50px' border='1px'/>
 			<Heading p='2' size='md'>{data.name}</Heading>
 			{

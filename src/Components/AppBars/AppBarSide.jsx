@@ -86,17 +86,13 @@ export const Sidebar = () => {
 			icon={FiRefreshCcw} 
 			onClick={() => navigate("/history")}/>
 
-            <NavButton label="Users & Projects" 
+            <NavButton label="Users, Projects & API" 
 			icon={FiUsers} 
-			onClick={() => navigate("/history")}/>
-
-            <NavButton label="API key" 
-			icon={FiKey} 
-			onClick={() => navigate("/history")}/>
+			onClick={() => navigate("/users")}/>
 
             <NavButton label="Billing" 
 			icon={FiDollarSign} 
-			onClick={() => navigate("/history")}/>
+			onClick={() => navigate("/billing")}/>
           </Stack>
         </Stack>
         <Stack
