@@ -9,7 +9,13 @@ import {
 	Stack, Flex, Center,useColorModeValue,Icon,
 	Text,ButtonGroup,IconButton, Image,
 	useColorModeValue as mode,
-	VisuallyHidden, Container, useBreakpointValue
+	VisuallyHidden, Container, useBreakpointValue,  Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,AspectRatio,
+	ModalCloseButton,useDisclosure
   } from '@chakra-ui/react'
   import * as React from 'react'
   import { FaPlay } from 'react-icons/fa'
@@ -24,7 +30,10 @@ import { Link } from "react-router-dom";
 
   
   function HomePage() {
+	const { isOpen, onOpen, onClose } = useDisclosure()
+
 	return (
+		<>
 	  <Box>
 		<Box as="section" bg="#ffd600" color="black" py="7.5rem">
 		  <Box
@@ -39,7 +48,11 @@ import { Link } from "react-router-dom";
 			}}
 		  >
 			<Box textAlign="center">
+				<Center>
+				<Image alignSelf='center' src='https://imagedelivery.net/46JjFsbElfX2IL16wJFTCA/85568cee-eea2-4b62-7a68-afa7f6a51b00/thumbnail' width='200px'/>
+				</Center>
 			  <Heading
+			  marginTop='5'
 				as="h1"
 				size="3xl"
 				fontWeight="extrabold"
@@ -66,7 +79,7 @@ import { Link } from "react-router-dom";
 			  spacing="4"
 			>
 			  <LightMode>
-				<Button
+			  <Link to="/signup"><Button
 				  as="a"
 				  href="#"
 				  size="lg"
@@ -75,8 +88,10 @@ import { Link } from "react-router-dom";
 				  fontWeight="bold"
 				  fontSize="md"
 				>
-				  <Link to="/signup">Sign Up</Link>
+				  Sign Up
 				</Button>
+				</Link>
+				<Link to="/login">
 				<Button
 				  as="a"
 				  href="#"
@@ -86,8 +101,9 @@ import { Link } from "react-router-dom";
 				  fontWeight="bold"
 				  fontSize="md"
 				>
-				  <Link to="/login">Login</Link>
+				  Login
 				</Button>
+				</Link>
 			  </LightMode>
 			</Stack>
   
@@ -107,7 +123,7 @@ import { Link } from "react-router-dom";
 				as="button"
 				bg="white"
 				shadow="lg"
-				color="blue.600"
+				color="white"
 				position="absolute"
 				top="50%"
 				left="50%"
@@ -119,7 +135,8 @@ import { Link } from "react-router-dom";
 				}}
 			  >
 				<VisuallyHidden>Play demo video</VisuallyHidden>
-				<FaPlay />
+				<Button onClick={onOpen} bg='red'><FaPlay /></Button>
+
 			  </Circle>
 			</Box>
 		  </Box>
@@ -256,6 +273,25 @@ import { Link } from "react-router-dom";
 			</Container>
 		</Box>
 	  </Box>
+	  <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Appgregator integration</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+		  	<AspectRatio maxW='560px' ratio={16/9}>
+			<iframe
+				title='naruto'
+				src='https://www.youtube.com/embed/QhBnZ6NPOY0'
+				allowFullScreen
+			/>
+			</AspectRatio>
+          </ModalBody>
+
+          
+        </ModalContent>
+      </Modal>
+	  </>
 	)
   }
 

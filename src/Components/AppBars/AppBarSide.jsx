@@ -1,5 +1,5 @@
 import { Divider, Flex,Text, Spacer, Stack, Button,
-	Center,Progress } from "@chakra-ui/react";
+	Center,Progress,Image } from "@chakra-ui/react";
 import * as React from "react";
 import {
   FiHelpCircle,
@@ -58,7 +58,7 @@ export const Sidebar = () => {
           }}
           shouldWrapChildren
         >
-          <Logo />
+          <Image src='https://imagedelivery.net/46JjFsbElfX2IL16wJFTCA/85568cee-eea2-4b62-7a68-afa7f6a51b00/thumbnail'/>
           
           <Spacer/>
 		  	<Center>
