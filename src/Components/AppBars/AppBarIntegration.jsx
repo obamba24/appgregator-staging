@@ -5,14 +5,7 @@ import {
 	SimpleGrid,useDisclosure,Button,
 	Stack, Flex, Center,useColorModeValue,Icon,
 	Text,ButtonGroup,IconButton, Image,
-	useColorModeValue as mode,
-	VisuallyHidden, Container, useBreakpointValue,Modal,Input,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalBody,
-	ModalCloseButton,
+	useColorModeValue as mode,Input,
 	Spinner,
   } from '@chakra-ui/react'
 import { doc, getDoc } from "firebase/firestore";
@@ -27,6 +20,8 @@ function AppBarIntegration() {
 	const [data,setData]=useState('')
 	const [rawData,setRawData]=useState('')
 	const [integration,setIntegration]=useState('')
+	const [projects,setProjects]=useState();
+	const [chooseProjects,setChooseProjects]=useState();
 
 	const getData= async ()=>{
 		const docRef = doc(db, "appgregator_display", "app_list");
@@ -35,12 +30,25 @@ function AppBarIntegration() {
 			const data = docSnap.data();
 			setRawData(data.data)
 		  	setData(data.data)
+			  setChooseProjects(data.data)
 		} else {
 		  console.log("No such document!");
 		}
 	}
+
+	const getProjects=async()=>{
+		const docRef = doc(db, "appgregator_user", "faizal.edrus@gmail.com");
+		const docSnap = await getDoc(docRef);
+		if (docSnap.exists()) {
+			const data = docSnap.data();
+			console.log(data.projects,)
+		  	setProjects(data.projects)
+		} else {
+		  console.log("No such document!");
+		}
+	}
+
 	const handleSearch=(searchKeyword)=>{
-		// console.log(searchKeyword)
 		var filteredData = rawData.filter(search => {
 			if (searchKeyword === '') {
 			  return search;
@@ -48,10 +56,10 @@ function AppBarIntegration() {
 			  return search.name.toLowerCase().includes(searchKeyword)
 			}
 		  })
-		//   console.log(filteredData)
 		setData(filteredData)
 	}
-	const getIntegration = async()=>{
+
+	const getIntegration = async(data = "qantor.co.id")=>{
 		const docRef = doc(db, "appgregator_projects", "qantor.co.id");
 		const docSnap = await getDoc(docRef);
 		if (docSnap.exists()) {
@@ -65,20 +73,22 @@ function AppBarIntegration() {
 
 	const getConnection = (data) =>{
 		// console.log(data)
+		if(integration){
 		const filtered = integration.filter(([key, value]) => key === data);
-		// console.log('filtrred data = ', filtered)
 		if (filtered.length>0)return filtered[0][1]
 		else return 0
 	}
+	else return 0
+	}
 	
-
 	useEffect(() => {
 		getData();
+		getProjects();
 		getIntegration();
-	
 	  return () => {
 		setData('')
 		setIntegration('')
+		setProjects('')
 	  }
 	}, [])
 	
@@ -100,30 +110,39 @@ function AppBarIntegration() {
 		</Heading>
 		<Input placeholder='search' width ='300px' maxW='300' onChange={(e)=>handleSearch(e.target.value)}/>
 	</Flex>
-	<Box>
-	<SimpleGrid columns={{ base: 1}} 
-		gap={{ base: '4'}}>
-			{data?
-			data.map((data) => (
-				<Link key={Math.random()} to={`/integration/${data.name}`}>
-					<AppCardIntegration 
-					image={data.image} 
-					name={data.name}
-					status={data.status}
-					price={data.price}
-					description={data.description}
-					type={data.type}
-					connection={getConnection(data.name)}/>
-				</Link>
+	<Box display='flex' flexDirection='row'>
+		<Box p='5'>
+		<Heading>Projects</Heading>
+			{projects && integration?
+			projects.map((project) => (
+			<Text key={Math.random}fontSize='2xl' borderBottom='1px'>{project}</Text> 
 			))
 			:
-			<Center>
-				<Spinner/>
-			</Center>}
+			<Spinner/>}
+		</Box>
+		<Box p='5'>
+			<SimpleGrid columns={{ base: 1}} gap={{ base: '4'}}>
+			{data?
+				data.map((data) => (
+					<Link key={Math.random()} to={`/integration/${data.name}`}>
+						<AppCardIntegration 
+						image={data.image} 
+						name={data.name}
+						status={data.status}
+						price={data.price}
+						description={data.description}
+						type={data.type}
+						connection={getConnection(data.name)}/>
+					</Link>
+				))
+				:
+				<Center>
+					<Spinner/>
+				</Center>}
 
-		</SimpleGrid>
+			</SimpleGrid>
+		</Box>
 	</Box>
-	
 </Box>
 
 

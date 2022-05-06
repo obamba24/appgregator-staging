@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Text,Box, Spinner ,Heading,Badge,
-	input, Button, Spacer, Input,SimpleGrid} from '@chakra-ui/react';
+	 Button, Spacer, Input,SimpleGrid, Center} from '@chakra-ui/react';
 
 import { doc, getDoc } from "firebase/firestore";
 import {db} from "../../Config/firebase"
@@ -51,19 +51,27 @@ function AppBarBilling() {
 			<Spacer/>
 			<Button bg='#ffd600'>Add Deposit</Button>
 		</Box>
-		<Box width='100%' background='gray.50' p='5' borderRadius='5'>
-		<Text>Your current balance</Text>	
-			<Box display='flex' flexDirection='row' >
-				<Input m='2' p='5' isReadOnly value={apiKey}/>
+		<Box width='100%' p='5' borderRadius='5'>
+			<SimpleGrid columns={{ base: 2}} gap={{ base: '4'}} m='2' >
+			<Box  background='gray.50' p='5' alignSelf='center' borderRadius='10px'>
+				<Text>Your current balance</Text>	
+				<Heading>$39</Heading>
+				</Box>
+				<Box  background='gray.50' p='5' alignContent='center' borderRadius='10px'>
+				<Text>Transaction in last 30 days</Text>	
+				<Heading>$20</Heading>
 			</Box>
-			<SimpleGrid columns={{ base: 1}} gap={{ base: '4'}}>
+			</SimpleGrid>
+			<SimpleGrid columns={{ base: 1}} gap='2'>
+
 			<AppCardIntegration 
 			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
 			name='nama'
 			status='status'
 			price='0.006'
 			description='ini desktirps'
-			connection='3'/>
+			connection='3'
+			/>
 
 			<AppCardIntegration 
 			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
@@ -73,11 +81,6 @@ function AppBarBilling() {
 			connection='1'/>
 
 			</SimpleGrid>
-		</Box>
-		<Box >
-			
-			
-			
 		</Box>
 	</Box>
 </Box>

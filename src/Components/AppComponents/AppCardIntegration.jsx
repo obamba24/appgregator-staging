@@ -7,28 +7,25 @@ import { useParams } from 'react-router-dom'
 function AppCardIntegration(props) {
 
   return (
-	<Box as="section" p='2'>
+	<Box as="section">
       <Box
         bg="bg-surface"
         boxShadow={useColorModeValue('sm', 'sm-dark')}
         borderRadius="lg"
 		bg='gray.50'
-        p='2'
+        p='5'
 		display='flex' flexDirection='row' alignItems='center'
       >
 		  
-			<Box paddingLeft='2'>
-				<Image src={props.image} width='75px' maxWidth='100px' border='1px' borderColor='#ffd600' fallbackSrc='https://via.placeholder.com/25'/>
+			<Box p='2'>
+				<Image src={props.image} width='75px' maxWidth='100px' fallbackSrc='https://via.placeholder.com/25'/>
 			</Box>
 			<Box p='2'>
-				<Heading paddingLeft='2' size='lg'>
+			<Heading size='lg'>
 					{props.name}
 				</Heading>
-				<Text paddingLeft='2'>${props.price}/ API call</Text>
-			</Box>
-			<Box>
-				<Text p='3'>{props.description}</Text>
-				<Badge colorScheme='blue'>{props.status}</Badge>{' '}<Badge colorScheme='green'>{props.type}</Badge>
+				<Text>{props.description}</Text>
+				<Badge colorScheme='blue'>{props.status}</Badge>{' '}<Badge colorScheme='green'>{props.type}</Badge>{' '}<Text paddingLeft='2'>${props.price}/ API call</Text>
 			</Box> 
 			<Spacer/>
 			<Box display='flex' flexDirection='row'>

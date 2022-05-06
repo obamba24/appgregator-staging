@@ -17,10 +17,9 @@ function AppBarUsersProjects() {
 		console.log('in handlre refresh')
 		axios.get('https://us-central1-appgregator.cloudfunctions.net/createApiKey')
       .then(res => {
-        const result = res
 		console.log('apikey=',res)
 		setApiSpinner(false)
-		setApiKey(apiKey)
+		setApiKey(res.data)
       }).catch((error)=> console.log(error,'error'))
 	 
 	}
