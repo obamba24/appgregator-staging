@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Text,Box, Spinner ,Heading,Badge,
-	input, Button, Spacer, Input} from '@chakra-ui/react';
+	input, Button, Spacer, Input,SimpleGrid} from '@chakra-ui/react';
 
 import { doc, getDoc } from "firebase/firestore";
 import {db} from "../../Config/firebase"
@@ -24,9 +24,7 @@ function AppBarBilling() {
 		} else {
 		  console.log("No such document!");
 		}
-
 	}
-
 
 	useEffect(() => {
 	getProjects()
@@ -51,17 +49,35 @@ function AppBarBilling() {
 		<Box display='flex' flexDirection='row' >
 			<Heading>Billing</Heading>
 			<Spacer/>
-			<Button bg='#ffd600'>Add new user</Button>
+			<Button bg='#ffd600'>Add Deposit</Button>
 		</Box>
 		<Box width='100%' background='gray.50' p='5' borderRadius='5'>
-		<Text>Your API Key for qantor.co.id</Text>	
+		<Text>Your current balance</Text>	
 			<Box display='flex' flexDirection='row' >
 				<Input m='2' p='5' isReadOnly value={apiKey}/>
-				<Button m='2' p='5' bg='#ffd600' onClick={()=>handleRefresh()}>Refresh API</Button>
 			</Box>
+			<SimpleGrid columns={{ base: 1}} gap={{ base: '4'}}>
+			<AppCardIntegration 
+			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
+			name='nama'
+			status='status'
+			price='0.006'
+			description='ini desktirps'
+			connection='3'/>
+
+			<AppCardIntegration 
+			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
+			name='nama'
+			status='status'
+			price='0.002'
+			connection='1'/>
+
+			</SimpleGrid>
 		</Box>
-		<Box>
-			<Text>Imam@importir.co : API = 1234123123 | deleteImam@importir.co : API = 1234123123 | deleteImam@importir.co : API = 1234123123 | deleteImam@importir.co : API = 1234123123 | delete</Text>
+		<Box >
+			
+			
+			
 		</Box>
 	</Box>
 </Box>

@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { Text,Box, Spinner ,Heading,Badge} from '@chakra-ui/react';
+import { Text,Box, Spinner ,Heading,SimpleGrid} from '@chakra-ui/react';
 
 import { doc, getDoc } from "firebase/firestore";
 import {db} from "../../Config/firebase"
@@ -40,16 +40,27 @@ function AppBarHistory() {
 	:
 	<Spinner/>}
 	</Box>
-	<Box p='5' borderLeft='1px'>
+	<Box p='5' borderLeft='1px' width='100%'>
 	<Heading>History</Heading>
-		<Box width='100%'>
-		<AppCardIntegration 
+		<SimpleGrid columns={{ base: 1}} 
+		gap={{ base: '4'}}>
+			<AppCardIntegration 
+			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
+			name='nama'
+			status='status'
+			price='0.006'
+			description='ini desktirps'
+			connection='3'/>
+
+			<AppCardIntegration 
 			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
 			name='nama'
 			status='status'
 			price='0.002'
 			connection='1'/>
-		</Box>
+
+			</SimpleGrid>
+			
 	</Box>
 </Box>
 	</>

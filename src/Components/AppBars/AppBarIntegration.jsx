@@ -25,19 +25,32 @@ import AppCardIntegration from "../AppComponents/AppCardIntegration"
 
 function AppBarIntegration() {
 	const [data,setData]=useState('')
+	const [rawData,setRawData]=useState('')
 	const [integration,setIntegration]=useState('')
+
 	const getData= async ()=>{
 		const docRef = doc(db, "appgregator_display", "app_list");
 		const docSnap = await getDoc(docRef);
 		if (docSnap.exists()) {
 			const data = docSnap.data();
-		  	// console.log("Document data:", data.data);
+			setRawData(data.data)
 		  	setData(data.data)
 		} else {
 		  console.log("No such document!");
 		}
 	}
-
+	const handleSearch=(searchKeyword)=>{
+		// console.log(searchKeyword)
+		var filteredData = rawData.filter(search => {
+			if (searchKeyword === '') {
+			  return search;
+			} else {
+			  return search.name.toLowerCase().includes(searchKeyword)
+			}
+		  })
+		//   console.log(filteredData)
+		setData(filteredData)
+	}
 	const getIntegration = async()=>{
 		const docRef = doc(db, "appgregator_projects", "qantor.co.id");
 		const docSnap = await getDoc(docRef);
@@ -85,10 +98,10 @@ function AppBarIntegration() {
 		<Heading size="lg" mb={{ base: '3', md: '0' }}>
 		Appgregator integration
 		</Heading>
-		<Input placeholder='search' width ='300px' maxW='300'/>
+		<Input placeholder='search' width ='300px' maxW='300' onChange={(e)=>handleSearch(e.target.value)}/>
 	</Flex>
 	<Box>
-	<SimpleGrid columns={{ base: 2}} 
+	<SimpleGrid columns={{ base: 1}} 
 		gap={{ base: '4'}}>
 			{data?
 			data.map((data) => (
@@ -98,6 +111,8 @@ function AppBarIntegration() {
 					name={data.name}
 					status={data.status}
 					price={data.price}
+					description={data.description}
+					type={data.type}
 					connection={getConnection(data.name)}/>
 				</Link>
 			))

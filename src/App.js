@@ -27,13 +27,8 @@ function App() {
   return (
     <Routes>
       <>
-	  {	
-	  	sessionStorage.getItem("Auth Token")? 
+
 	  	<Route path="/" element={<HomePage />} />
-		:
-		<Route path="/" element={<DashboardPage />} />
-	}
-       
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignUpPage />} />
         <Route path="users" element={<UsersProjectsPage />} />
