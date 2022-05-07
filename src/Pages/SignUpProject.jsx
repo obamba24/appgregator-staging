@@ -32,13 +32,14 @@ function SignUpProject() {
         projects: project,
 		master:arrayUnion(email),
         user: arrayUnion(email),
+		balance:0
       }, { merge: true });
 	  console.log('email=',email)
 	  const userRef = await setDoc(doc(db, "appgregator_user", email), {
         projects: arrayUnion(project)
       }, { merge: true });
       console.log("Document written with ID: ", docRef,userRef);
-      navigate("/dashboard", { replace: true });
+      navigate("/users", { replace: true });
     } catch (e) {
       console.log("Error adding document: ", e);
     }

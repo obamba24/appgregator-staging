@@ -8,7 +8,7 @@ import AppCardIntegration from '../AppComponents/AppCardIntegration';
 
 function AppBarBilling() {
 	const [projects,setProjects]=useState();
-	const [apiKey,setApiKey]=useState('kodok');
+	const [viewProject,setViewProject]=useState();
 
 	const getProjects=async()=>{
 		const docRef = doc(db, "appgregator_user", "faizal.edrus@gmail.com");
@@ -17,9 +17,13 @@ function AppBarBilling() {
 			const data = docSnap.data();
 			console.log(data.projects)
 		  	setProjects(data.projects)
+			setViewProject(data.projects[0])
 		} else {
 		  console.log("No such document!");
 		}
+	}
+	const handleProject=async(data)=>{
+		setViewProject(data)
 	}
 
 	useEffect(() => {
@@ -35,19 +39,19 @@ function AppBarBilling() {
 		  <Heading>Projects</Heading>
 	{projects?
 	projects.map((project) => (
-	<Text fontSize='2xl' borderBottom='1px'>{project}</Text> 
+	<Text key={Math.random()} fontSize='2xl' borderBottom='1px' onClick={()=>handleProject(project)}>{project}</Text> 
 	))
 	:
 	<Spinner/>}
 	
 	</Box>
-	<Box p='5' borderLeft='1px'>
+	<Box p='5' borderLeft='1px' width='100%'>
 		<Box display='flex' flexDirection='row' >
-			<Heading>Billing</Heading>
+			<Heading>Billing - {viewProject}</Heading>
 			<Spacer/>
 			<Button bg='#ffd600'>Add Deposit</Button>
 		</Box>
-		<Box width='100%' p='5' borderRadius='5'>
+		<Box p='5' borderRadius='5'>
 			<SimpleGrid columns={{ base: 3}} m='2'>
 			<Box  marginRight='2' background='gray.50' p='5' alignSelf='center' borderRadius='10px'>
 				<Text>Your current balance</Text>	

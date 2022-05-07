@@ -9,7 +9,7 @@ import {
 	Spinner,
   } from '@chakra-ui/react'
 import { doc, getDoc } from "firebase/firestore";
-import {db} from "../../Config/firebase"
+import {db,auth} from "../../Config/firebase"
 import { Link } from 'react-router-dom';
 
 import { AppCardCategory } from "../AppComponents/AppCardCategory";
@@ -21,7 +21,8 @@ function AppBarIntegration() {
 	const [rawData,setRawData]=useState('')
 	const [integration,setIntegration]=useState('')
 	const [projects,setProjects]=useState();
-	const [chooseProjects,setChooseProjects]=useState();
+	const [viewProject,setViewProject]=useState();
+	const email = auth.currentUser.email;
 
 	const getData= async ()=>{
 		const docRef = doc(db, "appgregator_display", "app_list");
@@ -32,22 +33,22 @@ function AppBarIntegration() {
 		  	setData(data.data)
 			
 		} else {
-		  console.log("No such document!");
+		  console.log("No such document! here");
 		}
 	}
 
 	const getProjects=async()=>{
-		const docRef = doc(db, "appgregator_user", "faizal.edrus@gmail.com");
+		const docRef = doc(db, "appgregator_user", email);
 		const docSnap = await getDoc(docRef);
 		if (docSnap.exists()) {
 			const data = docSnap.data();
-			console.log(data.projects, 'projects')
+			// console.log(data.projects, 'projects')
 		  	setProjects(data.projects)
-			  setChooseProjects(data.projects[0])
+			  setViewProject(data.projects[0])
 			  getIntegration(data.projects[0])
 			  
 		} else {
-		  console.log("No such document!");
+		  console.log("No such document! 2");
 		}
 	}
 
@@ -63,15 +64,17 @@ function AppBarIntegration() {
 	}
 
 	const getIntegration = async(data)=>{
-		
 		const docRef = doc(db, "appgregator_projects", data);
+		setViewProject(data)
 		const docSnap = await getDoc(docRef);
+
 		if (docSnap.exists()) {
 			const data = docSnap.data();
 		  	// console.log("Document data:", Object.entries(data));
 		  	setIntegration(Object.entries(data))
+			
 		} else {
-		  console.log("No such document!");
+		  console.log(data,"No such document! 3");
 		}
 	}
 
@@ -80,9 +83,9 @@ function AppBarIntegration() {
 		if(integration){
 		const filtered = integration.filter(([key, value]) => key === data);
 		if (filtered.length>0)return filtered[0][1]
-		else return 0
+		else return String(0)
 	}
-	else return 0
+	else return String(0)
 	}
 	
 	useEffect(() => {
@@ -91,6 +94,7 @@ function AppBarIntegration() {
 		// getIntegration();
 	  return () => {
 		setData('')
+		setViewProject('')
 		// setIntegration('')
 		setProjects('')
 	  }
@@ -110,7 +114,7 @@ function AppBarIntegration() {
 		direction={{ base: 'column', md: 'row' }}
 	>
 		<Heading size="lg" mb={{ base: '3', md: '0' }}>
-		Appgregator integration
+		Appgregator integration - {viewProject}
 		</Heading>
 		<Input placeholder='search' width ='300px' maxW='300' onChange={(e)=>handleSearch(e.target.value)}/>
 	</Flex>
@@ -119,7 +123,7 @@ function AppBarIntegration() {
 		<Heading>Projects</Heading>
 			{projects && integration?
 			projects.map((project) => (
-			<Text  key={Math.random} fontSize='2xl' borderBottom='1px' onClick={()=>getIntegration(project)}>{project}</Text> 
+			<Text  key={Math.random()} fontSize='2xl' borderBottom='1px' onClick={()=>getIntegration(project)}>{project}</Text> 
 			))
 			:
 			<Spinner/>}

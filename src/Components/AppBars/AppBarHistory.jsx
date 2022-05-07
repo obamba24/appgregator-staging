@@ -9,6 +9,7 @@ import AppCardIntegration from '../AppComponents/AppCardIntegration';
   
 function AppBarHistory() {
 	const [projects,setProjects]=useState();
+	const [viewProject,setViewProject]=useState()
 
 	const getProjects=async()=>{
 		const docRef = doc(db, "appgregator_user", "faizal.edrus@gmail.com");
@@ -17,10 +18,15 @@ function AppBarHistory() {
 			const data = docSnap.data();
 			console.log(data.projects)
 		  	setProjects(data.projects)
+			setViewProject(data.projects[0])
 		} else {
 		  console.log("No such document!");
 		}
 
+	}
+
+	const handleProject=async(data)=>{
+		setViewProject(data)
 	}
 
 
@@ -36,12 +42,12 @@ function AppBarHistory() {
 	<Box p='5'>
 		  <Heading>Projects</Heading>
 		{projects?
-		projects.map((project) => (<Text borderBottom='1px' fontSize='2xl'>{project}</Text> ))
+		projects.map((project) => (<Text key={Math.random()} borderBottom='1px' fontSize='2xl' onClick={()=>handleProject(project)}>{project}</Text> ))
 		:
 		<Spinner/>}
 	</Box>
 	<Box p='5' borderLeft='1px' width='100%'>
-	<Heading>History</Heading>
+	<Heading>History - {viewProject}</Heading>
 		<SimpleGrid columns={{ base: 1}} 
 		gap={{ base: '4'}}>
 			<AppCardIntegration 

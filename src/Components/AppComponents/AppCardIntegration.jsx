@@ -16,10 +16,12 @@ function AppCardIntegration(props) {
         p='5'
 		display='flex' flexDirection='row' alignItems='center'
       >
-		  
+		 {props.image?
 			<Box p='2'>
 				<Image src={props.image} width='75px' maxWidth='100px' fallbackSrc='https://via.placeholder.com/25'/>
 			</Box>
+			:<></>
+		 }
 			<Box p='2'>
 				{props.name?
 				<Heading size='lg'>

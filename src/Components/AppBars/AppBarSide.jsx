@@ -12,6 +12,7 @@ import {
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
+
 import { signOut } from "firebase/auth";
 import { auth } from "../../Config/firebase";
 import { NavButton } from "../AppComponents/AppButtonNavBar";
@@ -20,6 +21,8 @@ import { UserProfile } from "../AppComponents/UserProfile";
 
 export const Sidebar = () => {
   let navigate = useNavigate();
+  const email = auth.currentUser.email;
+
 
   const handleLogOut = () => {
     signOut(auth)
@@ -105,14 +108,9 @@ export const Sidebar = () => {
             <NavButton label="API docs" icon={FiHelpCircle} />
             <NavButton label="Settings" icon={FiSettings} />
 
-            <Progress value={2000} max={10000} />
-		  	<Text>$49 balance</Text>
-			<Divider borderColor="bg-accent-subtle" />
-
 			<UserProfile
-            name="Christoph Winston"
             image="https://tinyurl.com/yhkm2ek8"
-            email="chris@chakra-ui.com"
+            email={email}
           />
             {/* <NavButton
               onClick={() => handleLogOut()}
