@@ -30,7 +30,7 @@ function AppBarIntegration() {
 			const data = docSnap.data();
 			setRawData(data.data)
 		  	setData(data.data)
-			  setChooseProjects(data.data)
+			
 		} else {
 		  console.log("No such document!");
 		}
@@ -41,8 +41,11 @@ function AppBarIntegration() {
 		const docSnap = await getDoc(docRef);
 		if (docSnap.exists()) {
 			const data = docSnap.data();
-			console.log(data.projects,)
+			console.log(data.projects, 'projects')
 		  	setProjects(data.projects)
+			  setChooseProjects(data.projects[0])
+			  getIntegration(data.projects[0])
+			  
 		} else {
 		  console.log("No such document!");
 		}
@@ -59,8 +62,9 @@ function AppBarIntegration() {
 		setData(filteredData)
 	}
 
-	const getIntegration = async(data = "qantor.co.id")=>{
-		const docRef = doc(db, "appgregator_projects", "qantor.co.id");
+	const getIntegration = async(data)=>{
+		
+		const docRef = doc(db, "appgregator_projects", data);
 		const docSnap = await getDoc(docRef);
 		if (docSnap.exists()) {
 			const data = docSnap.data();
@@ -84,10 +88,10 @@ function AppBarIntegration() {
 	useEffect(() => {
 		getData();
 		getProjects();
-		getIntegration();
+		// getIntegration();
 	  return () => {
 		setData('')
-		setIntegration('')
+		// setIntegration('')
 		setProjects('')
 	  }
 	}, [])
@@ -115,7 +119,7 @@ function AppBarIntegration() {
 		<Heading>Projects</Heading>
 			{projects && integration?
 			projects.map((project) => (
-			<Text key={Math.random}fontSize='2xl' borderBottom='1px'>{project}</Text> 
+			<Text  key={Math.random} fontSize='2xl' borderBottom='1px' onClick={()=>getIntegration(project)}>{project}</Text> 
 			))
 			:
 			<Spinner/>}
@@ -139,7 +143,6 @@ function AppBarIntegration() {
 				<Center>
 					<Spinner/>
 				</Center>}
-
 			</SimpleGrid>
 		</Box>
 	</Box>

@@ -21,13 +21,27 @@ function AppCardIntegration(props) {
 				<Image src={props.image} width='75px' maxWidth='100px' fallbackSrc='https://via.placeholder.com/25'/>
 			</Box>
 			<Box p='2'>
-			<Heading size='lg'>
-					{props.name}
+				{props.name?
+				<Heading size='lg'>
+						{props.name}
 				</Heading>
-				<Text>{props.description}</Text>
-				<Badge colorScheme='blue'>{props.status}</Badge>{' '}<Badge colorScheme='green'>{props.type}</Badge>{' '}<Text paddingLeft='2'>${props.price}/ API call</Text>
+				:<></>
+				}
+				{props.description?<Text>{props.description}</Text>:<></>}
+				{props.status?(<>
+				<Badge colorScheme='blue'>{props.status}</Badge>
+				<Badge colorScheme='green'>{props.type}</Badge>
+				
+				</>
+				)
+				:<></>}
+				{props.price?
+				<Text paddingLeft='2'>${props.price}/ API call</Text>
+				:<></>
+			}
 			</Box> 
 			<Spacer/>
+			{props.connection?
 			<Box display='flex' flexDirection='row'>
 				
 				<Stack alignItems='center' p='2'>
@@ -35,8 +49,9 @@ function AppCardIntegration(props) {
 					<Text>Connection</Text>
 				</Stack>
 			</Box>
+			:
+			<></>}
 			<Box paddingLeft='2'>
-			
 				<ArrowRightIcon/>
 			</Box>
       </Box>

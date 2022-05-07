@@ -10,10 +10,6 @@ function AppBarBilling() {
 	const [projects,setProjects]=useState();
 	const [apiKey,setApiKey]=useState('kodok');
 
-	const handleRefresh=async()=>{
-		//get from cloud function new api key
-		setApiKey(Math.random())
-	}
 	const getProjects=async()=>{
 		const docRef = doc(db, "appgregator_user", "faizal.edrus@gmail.com");
 		const docSnap = await getDoc(docRef);
@@ -43,7 +39,7 @@ function AppBarBilling() {
 	))
 	:
 	<Spinner/>}
-	<Button marginTop='5px' bg='#ffd600'>Add new project</Button>
+	
 	</Box>
 	<Box p='5' borderLeft='1px'>
 		<Box display='flex' flexDirection='row' >
@@ -52,34 +48,36 @@ function AppBarBilling() {
 			<Button bg='#ffd600'>Add Deposit</Button>
 		</Box>
 		<Box width='100%' p='5' borderRadius='5'>
-			<SimpleGrid columns={{ base: 2}} gap={{ base: '4'}} m='2' >
-			<Box  background='gray.50' p='5' alignSelf='center' borderRadius='10px'>
+			<SimpleGrid columns={{ base: 3}} m='2'>
+			<Box  marginRight='2' background='gray.50' p='5' alignSelf='center' borderRadius='10px'>
 				<Text>Your current balance</Text>	
 				<Heading>$39</Heading>
 				</Box>
-				<Box  background='gray.50' p='5' alignContent='center' borderRadius='10px'>
-				<Text>Transaction in last 30 days</Text>	
-				<Heading>$20</Heading>
+
+			<Box marginRight='2'  background='gray.50' p='5' alignContent='center' borderRadius='10px'>
+			<Text>Transaction in last 30 days</Text>	
+			<Heading>$20</Heading>
 			</Box>
+
+			<Box  background='gray.50' p='5' alignContent='center' borderRadius='10px'>
+			<Text>Transaction in last 30 days</Text>	
+			<Heading>$20</Heading>
+			</Box>
+
 			</SimpleGrid>
-			<SimpleGrid columns={{ base: 1}} gap='2'>
+			<SimpleGrid columns={{ base: 2}} gap='2' m='2'>
 
-			<AppCardIntegration 
-			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
-			name='nama'
-			status='status'
-			price='0.006'
-			description='ini desktirps'
-			connection='3'
-			/>
-
-			<AppCardIntegration 
-			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
-			name='nama'
-			status='status'
-			price='0.002'
-			connection='1'/>
-
+				<AppCardIntegration 
+				image='https://seeklogo.com/images/S/stripe-logo-4039DEE4FE-seeklogo.com.jpg'
+				name='$50'
+				status='Pending'
+				description='Payment on 23 Jan 2021'
+				/>
+				<AppCardIntegration 
+				image='https://seeklogo.com/images/S/stripe-logo-4039DEE4FE-seeklogo.com.jpg'
+				name='$75'
+				status='Paid'
+				description='Payment on 23 Jan 2021'/>
 			</SimpleGrid>
 		</Box>
 	</Box>

@@ -37,6 +37,7 @@ function App() {
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="integration" element={<IntegrationPage />} />
         <Route path="billing" element={<BillingPage />} />
+        <Route path="projects" element={<SignUpProject />} />
         <Route path="integration/:platform" element={<IntegrationPlatformPage />} />
 
         <Route

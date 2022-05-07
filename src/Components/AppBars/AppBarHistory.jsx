@@ -33,12 +33,12 @@ function AppBarHistory() {
 	
   return (<>
   <Box p={'5'} display='flex' flexDirection='row'>
-	  <Box p='5'>
+	<Box p='5'>
 		  <Heading>Projects</Heading>
-	{projects?
-	projects.map((project) => (<Text borderBottom='1px' fontSize='2xl'>{project}</Text> ))
-	:
-	<Spinner/>}
+		{projects?
+		projects.map((project) => (<Text borderBottom='1px' fontSize='2xl'>{project}</Text> ))
+		:
+		<Spinner/>}
 	</Box>
 	<Box p='5' borderLeft='1px' width='100%'>
 	<Heading>History</Heading>
@@ -59,7 +59,7 @@ function AppBarHistory() {
 			price='0.002'
 			connection='1'/>
 
-			</SimpleGrid>
+		</SimpleGrid>
 			
 	</Box>
 </Box>

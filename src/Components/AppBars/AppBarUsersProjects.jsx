@@ -1,15 +1,18 @@
 import React,{useState,useEffect} from 'react'
-import { Text,Box, Spinner ,Heading,Badge,
+import { Text,Box, Spinner ,Heading,Badge,SimpleGrid,
 	input, Button, Spacer, Input} from '@chakra-ui/react';
 import axios from 'axios'
 import { doc, getDoc } from "firebase/firestore";
 import {db} from "../../Config/firebase"
 import AppCardIntegration from '../AppComponents/AppCardIntegration';
+import { Link } from 'react-router-dom';
 
 function AppBarUsersProjects() {
 	const [projects,setProjects]=useState();
 	const [apiKey,setApiKey]=useState('kodok');
 	const [apiSpinner,setApiSpinner]=useState(false)
+
+	
 
 	const handleRefresh=async()=>{
 		//get from cloud function new api key
@@ -59,11 +62,11 @@ function AppBarUsersProjects() {
 		  	</Box>
 			
 			<Box display='flex' alignSelf='end'>
-			  <Button marginTop='5px' bg='#ffd600'>Add new project</Button>
+			  <Link to='/projects'><Button marginTop='5px' bg='#ffd600' >Add new project</Button></Link>
 			</Box>
 			
 	</Box>
-	<Box p='5' borderLeft='1px'>
+	<Box p='5' borderLeft='1px'  width='100%'>
 		<Box display='flex' flexDirection='row' >
 			<Heading>Users</Heading>
 			<Spacer/>
@@ -77,8 +80,26 @@ function AppBarUsersProjects() {
 				<Button m='2' p='5' bg='#ffd600' onClick={()=>handleRefresh()}>Refresh API</Button>
 			</Box>
 		</Box>
-		<Box>
-			<Text>Imam@importir.co : API = 1234123123 | deleteImam@importir.co : API = 1234123123 | deleteImam@importir.co : API = 1234123123 | deleteImam@importir.co : API = 1234123123 | delete</Text>
+		<Box marginTop='2'>
+		<SimpleGrid columns={{ base: 2}} 
+		gap={{ base: '2'}}>
+			
+			<AppCardIntegration 
+			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
+			name='nama'
+			status='status'
+			price='0.006'
+			description='margaretha@gmail.com'
+			connection='3'/>
+
+			<AppCardIntegration 
+			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
+			name='nama'
+			status='status'
+			price='0.002'
+			connection='1'/>
+
+		</SimpleGrid>
 		</Box>
 	</Box>
 </Box>
