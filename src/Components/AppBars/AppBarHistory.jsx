@@ -48,21 +48,29 @@ function AppBarHistory() {
 	</Box>
 	<Box p='5' borderLeft='1px' width='100%'>
 	<Heading>History - {viewProject}</Heading>
-		<SimpleGrid columns={{ base: 1}} 
+		<SimpleGrid columns={{ base: 1, sm:1, md:1,lg:1}} 
 		gap={{ base: '4'}}>
 			<AppCardIntegration 
-			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
-			name='nama'
 			status='status'
 			price='0.006'
 			description='ini desktirps'
 			connection='3'/>
 
 			<AppCardIntegration 
-			image='https://cdn.pixabay.com/photo/2018/05/19/21/39/toad-3414441__340.jpg'
-			name='nama'
 			status='status'
 			price='0.002'
+			description='ini desktirps'
+			connection='1'/>
+
+<AppCardIntegration 
+			status='status'
+			price='0.002'
+			description='ini desktirps'
+			connection='1'/>
+			<AppCardIntegration 
+			status='status'
+			price='0.002'
+			description='ini desktirps'
 			connection='1'/>
 
 		</SimpleGrid>

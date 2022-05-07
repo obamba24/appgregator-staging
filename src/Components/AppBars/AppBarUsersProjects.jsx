@@ -144,24 +144,45 @@ function AppBarUsersProjects() {
 		<Text>Your API Key for {viewProject}</Text>	
 			<Box display='flex' flexDirection='row' >
 				<Input m='2' p='5' isReadOnly value={apiKey}/>
-				{apiSpinner?<Spinner/>:<></>}
+				{apiSpinner?
+				<Button
+					m='2' p='5' bg='#ffd600'
+					isLoading
+					loadingText='Loading'
+					colorScheme='teal'
+					variant='outline'
+					spinnerPlacement='start'
+				/>
+				:
 				<Button m='2' p='5' bg='#ffd600' onClick={()=>handleRefresh()}>Create new API</Button>
+				}
 			</Box>
 		</Box>
 		<Box marginTop='2'>
 		<Heading>Users {viewProject}</Heading>
-		<SimpleGrid columns={{ base: 2}} 
+		<SimpleGrid columns={{ base: 2, sm:1,md:2,lg:4}} 
 		gap={{ base: '2'}}>
 
 		{master===email? users.map((email)=>
 			<AppCardIntegration 
-			
 			status='user'
 			description={email}/>)
 			:
 			<></>
 		}
 
+<AppCardIntegration 
+			status='user'
+			description='kodok@gmail.com'/>
+<AppCardIntegration 
+			status='user'
+			description='kodok@gmail.com'/>
+			<AppCardIntegration 
+			status='user'
+			description='kodok@gmail.com'/>
+			<AppCardIntegration 
+			status='user'
+			description='kodok@gmail.com'/>
 		</SimpleGrid>
 		</Box>
 	</Box>
