@@ -54,7 +54,8 @@ function AppBarBilling() {
 				price: data, // One-time price created in Stripe
 				success_url: window.location.origin,
 				cancel_url: window.location.origin,
-				time:time.toString()
+				time:time.toString(),
+				project:viewProject
 			  });
 
 				setTimeout(() => {
