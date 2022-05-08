@@ -27,12 +27,24 @@ import { FaArrowRight } from 'react-icons/fa'
 import { AppCardCategory } from '../Components/AppComponents/AppCardCategory'
 import { Link } from "react-router-dom";
 import {auth} from "../Config/firebase"
+import { useEffect } from 'react'
+import { useState } from 'react'
 
-
-  
   function HomePage() {
+	const [email,setEmail]=useState('true');
 	const { isOpen, onOpen, onClose } = useDisclosure()
-	const email = auth.currentUser.email;
+	
+	const getEmail=async()=>{
+		setEmail(sessionStorage.getItem("Auth Token"))
+		// console.log(sessionStorage.getItem("Auth Token"))
+	}
+	useEffect(() => {
+		getEmail()
+	  return () => {
+		setEmail('')
+	  }
+	}, [])
+	
 	return (
 		<>
 	  <Box>
@@ -80,48 +92,48 @@ import {auth} from "../Config/firebase"
 			  spacing="4"
 			>
 			  <LightMode>
-				  {email? 
+				  {email? <>
 					<Link to="/dashboard">
-					<Button
-					as="a"
-					href="#"
-					size="lg"
-					colorScheme="blue"
-					px="8"
-					fontWeight="bold"
-					fontSize="md"
-					>
-					Go To Dashboard
-					</Button>
+						<Button
+						as="a"
+						href="#"
+						size="lg"
+						colorScheme="blue"
+						px="8"
+						fontWeight="bold"
+						fontSize="md"
+						>
+						Go To Dashboard
+						</Button>
 					</Link>
-
+					</>
 					:
 					<>
-				<Link to="/signup"><Button
-					as="a"
-					href="#"
-					size="lg"
-					colorScheme="blue"
-					px="8"
-					fontWeight="bold"
-					fontSize="md"
-					>
-					Sign Up
-					</Button>
-					</Link>
-					<Link to="/login">
-					<Button
-					as="a"
-					href="#"
-					size="lg"
-					colorScheme="green"
-					px="8"
-					fontWeight="bold"
-					fontSize="md"
-					>
-					Login
-					</Button>
-					</Link>
+						<Link to="/signup"><Button
+						as="a"
+						href="#"
+						size="lg"
+						colorScheme="blue"
+						px="8"
+						fontWeight="bold"
+						fontSize="md"
+						>
+						Sign Up
+						</Button>
+						</Link>
+						<Link to="/login">
+						<Button
+						as="a"
+						href="#"
+						size="lg"
+						colorScheme="green"
+						px="8"
+						fontWeight="bold"
+						fontSize="md"
+						>
+						Login
+						</Button>
+						</Link>
 					</>
 					}
 			  </LightMode>
@@ -228,9 +240,9 @@ import {auth} from "../Config/firebase"
 				
 			</Flex>
 			<SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} gap={{ base: '4', md: '6', lg: '8' }}>
-				{categories.map((category) => (
+				{categories?categories.map((category) => (
 				<AppCardCategory key={category.name} category={category} />
-				))}
+				)):<></>}
 			</SimpleGrid>
 			</Stack>
 		</Box>
@@ -254,9 +266,9 @@ import {auth} from "../Config/firebase"
 					</Center>
 				</Stack>
 				<SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} columnGap="8" rowGap="6">
-				{products.map((product, id) => (
+				{products?products.map((product, id) => (
 					<AppCardPricing key={id} product={product} />
-				))}
+				)):<></>}
 				</SimpleGrid>
 			</Stack>
 		</Box>
@@ -293,19 +305,22 @@ import {auth} from "../Config/firebase"
 			</Container>
 		</Box>
 	  </Box>
-	  <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+	  <Modal isOpen={isOpen} onClose={onClose} size='full'>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Appgregator integration</ModalHeader>
+          <ModalHeader>What is Appgregator?</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-		  	<AspectRatio maxW='560px' ratio={16/9}>
+          <ModalBody bg='#ffd600' >
+			  
+		  	<AspectRatio ratio={16/9}>
 			<iframe
 				title='naruto'
-				src='https://www.youtube.com/embed/QhBnZ6NPOY0'
+				src='https://www.youtube.com/embed/QhBnZ6NPOY0?autoplay=1'
 				allowFullScreen
+				allow='autoplay'
 			/>
 			</AspectRatio>
+			
           </ModalBody>
 
           

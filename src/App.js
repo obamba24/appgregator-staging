@@ -13,6 +13,7 @@ import HistoryPage from "./Pages/HistoryPage";
 import IntegrationPlatformPage from "./Pages/IntegrationPlatformPage";
 import UsersProjectsPage from "./Pages/UsersProjectsPage";
 import BillingPage from "./Pages/BillingPage";
+import NewAppgregatorPage from "./Pages/NewAppgregatorPage"
 
 
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="signup" element={<SignUpPage />} />
         <Route path="users" element={<UsersProjectsPage />} />
         <Route path="appgregate" element={<AppgregatePage />} />
+        <Route path="appgregate/new" element={<NewAppgregatorPage />} />
         <Route path="history" element={<HistoryPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="integration" element={<IntegrationPage />} />

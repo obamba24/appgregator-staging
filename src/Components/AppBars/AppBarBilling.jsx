@@ -29,7 +29,7 @@ function AppBarBilling() {
 
 	const currentUser=auth.currentUser;
 	const getProjects=async()=>{
-		const docRef = doc(db, "appgregator_user", "faizal.edrus@gmail.com");
+		const docRef = doc(db, "appgregator_user", currentUser.email);
 		const docSnap = await getDoc(docRef);
 		if (docSnap.exists()) {
 			const data = docSnap.data();
@@ -98,7 +98,6 @@ catch(error){
 	))
 	:
 	<Spinner/>}
-	
 	</Box>
 	<Box p='5' borderLeft='1px' width='100%'>
 		<Box display='flex' flexDirection='row' >
@@ -155,15 +154,15 @@ catch(error){
           <ModalBody>
 		  <Accordion>
 			<AccordionItem>
-				<h2>
+				
 				<AccordionButton>
-					<Box flex='1' textAlign='left'>
-					<Image src='https://seeklogo.com/images/S/stripe-logo-4039DEE4FE-seeklogo.com.jpg' width='25px'/>
-					<Text>Stripe - Credit Card</Text>
+				<AccordionIcon />
+				<Box display='flex' flexDirection='row'>
+						<Image src='https://seeklogo.com/images/S/stripe-logo-4039DEE4FE-seeklogo.com.jpg' width='50px'/>
+						<Text m='2'>Stripe - Credit Card</Text>
 					</Box>
-					<AccordionIcon />
 				</AccordionButton>
-				</h2>
+				
 				<AccordionPanel pb={4} defaultIndex={[0]}>
 				<Box display='flex' flexDirection='row' width='100%'>
 					<Box width='50%'>
@@ -214,7 +213,7 @@ catch(error){
 						<Text>/month</Text>
 						<List marginTop='2' spacing={1}>
 							<ListItem>
-								<ListIcon as={CheckCircleIcon} color='green.500' />
+								<ListIcon fontWeight='bold' as={CheckCircleIcon} color='green.500' />
 								All basic integration							
 								</ListItem>
 							<ListItem>

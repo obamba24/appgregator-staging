@@ -1,9 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { Text,Box, Spinner ,Heading,Badge,SimpleGrid,Alert,
 	AlertIcon,
-	AlertTitle,
-	AlertDescription,
-	input, Button, Spacer, Input} from '@chakra-ui/react';
+ Button, Spacer, Input} from '@chakra-ui/react';
 import axios from 'axios'
 import { doc, getDoc,getDocs,orderBy,query,where,serverTimestamp,collection,setDoc, arrayUnion, limit} from "firebase/firestore";
 import {db,auth} from "../../Config/firebase"
@@ -228,12 +226,12 @@ function AppBarUsersProjects() {
 		
 		}
 		</Box>
-		<SimpleGrid columns={{ base: 2, sm:1,md:2,lg:4}} 
+		<SimpleGrid columns={{ base: 2, sm:1,md:2,lg:3}} 
 		gap={{ base: '2'}}>
 
 		{master===email? users.map((email)=>
 			<AppCardIntegration 
-			status='user'
+			status={master===email?'owner':'user'}
 			description={email}/>)
 			:
 			<></>

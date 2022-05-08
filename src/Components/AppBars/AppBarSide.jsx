@@ -10,8 +10,7 @@ import {
   FiZap,
   FiServer,FiUsers,FiKey,FiDollarSign
 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 import { signOut } from "firebase/auth";
 import { auth } from "../../Config/firebase";
@@ -22,7 +21,6 @@ import { UserProfile } from "../AppComponents/UserProfile";
 export const Sidebar = () => {
   let navigate = useNavigate();
   const email = auth.currentUser.email;
-
 
   const handleLogOut = () => {
     signOut(auth)
@@ -67,7 +65,9 @@ export const Sidebar = () => {
           
           <Spacer/>
 		  	<Center>
-			  <Button width='100%' bg='green' color='white'>New Appgregation</Button>
+				<Link to='/appgregate/new'>
+			  		<Button width='100%' bg='green' color='white'>New Appgregator</Button>
+			  	</Link>
 			</Center>
           <Stack spacing="1">
             {/* <NavButton label="Home" icon={FiHome} /> */}
