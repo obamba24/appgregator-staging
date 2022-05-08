@@ -40,6 +40,8 @@ export const Sidebar = () => {
       bg="#ffd600"
       color="on-accent"
       overflowY="auto"
+	  height="full"  
+	  justifyContent="flex-end"
       maxW={{
         base: "full",
         sm: "xs",

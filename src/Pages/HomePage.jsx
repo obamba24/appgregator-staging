@@ -26,12 +26,13 @@ import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { FaArrowRight } from 'react-icons/fa'
 import { AppCardCategory } from '../Components/AppComponents/AppCardCategory'
 import { Link } from "react-router-dom";
+import {auth} from "../Config/firebase"
 
 
   
   function HomePage() {
 	const { isOpen, onOpen, onClose } = useDisclosure()
-
+	const email = auth.currentUser.email;
 	return (
 		<>
 	  <Box>
@@ -79,31 +80,50 @@ import { Link } from "react-router-dom";
 			  spacing="4"
 			>
 			  <LightMode>
-			  <Link to="/signup"><Button
-				  as="a"
-				  href="#"
-				  size="lg"
-				  colorScheme="blue"
-				  px="8"
-				  fontWeight="bold"
-				  fontSize="md"
-				>
-				  Sign Up
-				</Button>
-				</Link>
-				<Link to="/login">
-				<Button
-				  as="a"
-				  href="#"
-				  size="lg"
-				  colorScheme="green"
-				  px="8"
-				  fontWeight="bold"
-				  fontSize="md"
-				>
-				  Login
-				</Button>
-				</Link>
+				  {email? 
+					<Link to="/dashboard">
+					<Button
+					as="a"
+					href="#"
+					size="lg"
+					colorScheme="blue"
+					px="8"
+					fontWeight="bold"
+					fontSize="md"
+					>
+					Go To Dashboard
+					</Button>
+					</Link>
+
+					:
+					<>
+				<Link to="/signup"><Button
+					as="a"
+					href="#"
+					size="lg"
+					colorScheme="blue"
+					px="8"
+					fontWeight="bold"
+					fontSize="md"
+					>
+					Sign Up
+					</Button>
+					</Link>
+					<Link to="/login">
+					<Button
+					as="a"
+					href="#"
+					size="lg"
+					colorScheme="green"
+					px="8"
+					fontWeight="bold"
+					fontSize="md"
+					>
+					Login
+					</Button>
+					</Link>
+					</>
+					}
 			  </LightMode>
 			</Stack>
   

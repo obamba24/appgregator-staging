@@ -21,7 +21,6 @@ import {db,auth,app} from "../../Config/firebase"
 import AppCardIntegration from '../AppComponents/AppCardIntegration';
 import { CheckCircleIcon } from '@chakra-ui/icons'
 
-
 function AppBarBilling() {
 	const [projects,setProjects]=useState();
 	const [viewProject,setViewProject]=useState();
@@ -34,7 +33,7 @@ function AppBarBilling() {
 		const docSnap = await getDoc(docRef);
 		if (docSnap.exists()) {
 			const data = docSnap.data();
-			console.log(data.projects)
+			// console.log(data.projects)
 		  	setProjects(data.projects)
 			setViewProject(data.projects[0])
 		} else {

@@ -16,17 +16,14 @@ function MainLayout() {
   });
   const AppLayout = (Content) => {
     return (
-      <Flex
-        as="section"
-        direction={{
-          base: "column",
-          lg: "row",
-        }}
-        height="100vh"
-        bg="bg-canvas"
-        overflowY="auto"
+      <Flex height='100vh'
       >
-        {isDesktop ? <Sidebar /> : null}
+        {isDesktop ?
+		<Box height="full"  overflowY="auto"  justifyContent="flex-end">
+			<Sidebar />
+		</Box> 
+		: 
+		null}
         <Box
           direction={{
             base: "row",
@@ -34,10 +31,12 @@ function MainLayout() {
           }}
           bg="bg-canvas"
           flex="1"
+		  overflowY="auto"
         >
-          <Navbar />
-          <Content />
-        </Box>
+          	<Navbar />
+		 <Content />
+		  </Box>
+        
       </Flex>
     );
   };

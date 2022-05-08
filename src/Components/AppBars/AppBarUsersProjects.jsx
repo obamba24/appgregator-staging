@@ -1,12 +1,17 @@
 import React,{useState,useEffect} from 'react'
-import { Text,Box, Spinner ,Heading,Badge,SimpleGrid,
+import { Text,Box, Spinner ,Heading,Badge,SimpleGrid,Alert,
+	AlertIcon,
+	AlertTitle,
+	AlertDescription,
 	input, Button, Spacer, Input} from '@chakra-ui/react';
 import axios from 'axios'
 import { doc, getDoc,getDocs,orderBy,query,where,serverTimestamp,collection,setDoc, arrayUnion, limit} from "firebase/firestore";
 import {db,auth} from "../../Config/firebase"
 import AppCardIntegration from '../AppComponents/AppCardIntegration';
 import { Link } from 'react-router-dom';
+import { getMessaging, onMessage } from "firebase/messaging";
 
+				
 function AppBarUsersProjects() {
 	const [projects,setProjects]=useState('');
 	const [apiKey,setApiKey]=useState('NO API KEY YET, please create a new API key');
@@ -14,7 +19,17 @@ function AppBarUsersProjects() {
 	const [viewProject,setViewProject]=useState('');
 	const [master,setMaster]=useState('');
 	const [users,setUsers]=useState();
+	const [userInput,setNewUserInput]=useState();
+	const [userSaveInput,setUserSaveInput]= useState();
+	const [alert,setAlert]=useState(false)
 	const email = auth.currentUser.email;
+
+	const messaging = getMessaging();
+				onMessage(messaging, (payload) => {
+				console.log('Message received. ', payload);
+				// ...
+				});
+
 
 	const handleRefresh=async()=>{
 		//get from cloud function new api key
@@ -28,6 +43,7 @@ function AppBarUsersProjects() {
       })
 	  .then(api=>{
 		 const time = Math.floor(Date.now() / 1000);
+		 try{
 		  const apiRef = setDoc(doc(db, `appgregator_api_key`, email), {
 			api : arrayUnion(api.data),
 			project:arrayUnion(viewProject),
@@ -45,12 +61,15 @@ function AppBarUsersProjects() {
 		  }, { merge: true });
 		}
 		  return docRef;
+	}
+	catch(error){ console.log(error)}
 		
 		})
 		.then(docref=>{console.log('Updated API Key')})
 	  	.catch((error)=> console.log(error,'error'))
 	 
 	}
+	
 	const getProjects=async()=>{
 		const docRef = doc(db, "appgregator_user", email);
 		const docSnap = await getDoc(docRef);
@@ -92,11 +111,11 @@ function AppBarUsersProjects() {
 		  else setApiKey('NO API KEY YET, please create a new API key')
 	}
 
-	// get status of the users status in projects
 	const getAdminStatus = async(project)=>{
 		const docRef = doc(db, "appgregator_projects", project);
 		const docSnap = await getDoc(docRef);
 		if (docSnap.exists()) {
+			setUsers('')
 			const data = docSnap.data();
 			const findMaster=data.master.find((x)=>x===email)
 			setMaster(findMaster)
@@ -104,7 +123,38 @@ function AppBarUsersProjects() {
 		} else {
 		  console.log("No such document!");
 		}
-}
+	}
+
+	const handleSaveUser= async()=>{
+		console.log('di handleSaveUser',userSaveInput)
+		try {
+			const docRef = await setDoc(doc(db, "appgregator_projects", viewProject), {
+				projects: viewProject,
+				user: arrayUnion(userSaveInput)
+			  }, { merge: true });
+			  console.log('email=',userSaveInput)
+
+			  const userRef = await setDoc(doc(db, "appgregator_user", userSaveInput), {
+				projects: arrayUnion(viewProject)
+			  }, { merge: true });
+			  console.log("Document written with ID: ", docRef,userRef);
+
+			  getAdminStatus(viewProject)
+			  //should show notification here
+			  setAlert(
+				  {
+					  message:"Success adding new users",
+					  status:"success"
+					})
+				setTimeout(() => {
+					setAlert('')
+				}, 10000);
+			  setNewUserInput(false)
+		} catch (error) {
+			console.log(error)
+		}
+		
+	}
 
 	useEffect(() => {
 	getProjects()
@@ -119,15 +169,15 @@ function AppBarUsersProjects() {
 		  <Box>
 		  
 		  <Heading>Projects</Heading>
-			{projects?
+			{projects?	
 			projects.map((project) => (
 			<Text fontSize='2xl' borderBottom='1px' key={project} onClick={()=>handleProject(project)}>{project}</Text> 
 			))
 			:
-			<Spinner/>}
+			<Spinner/>
+			}
 
 		  	</Box>
-			
 			<Box display='flex' alignSelf='end'>
 			  <Link to='/projects'><Button marginTop='5px' bg='#ffd600' >Add new project</Button></Link>
 			</Box>
@@ -136,9 +186,7 @@ function AppBarUsersProjects() {
 	<Box p='5' borderLeft='1px'  width='100%'>
 		<Box display='flex' flexDirection='row' >
 			<Heading>API Key {viewProject}</Heading>
-			<Spacer/>
 			
-			<Button bg='#ffd600'>Add new user</Button>
 		</Box>
 		<Box width='100%' background='gray.50' p='5' borderRadius='5'>
 		<Text>Your API Key for {viewProject}</Text>	
@@ -159,7 +207,27 @@ function AppBarUsersProjects() {
 			</Box>
 		</Box>
 		<Box marginTop='2'>
-		<Heading>Users {viewProject}</Heading>
+		{alert?
+				<Alert status={alert.status} m='2px'>
+					<AlertIcon />
+					{alert.message}
+				</Alert>:
+					<></>
+					
+			}
+		<Box display='flex' flexDirection='row' >
+			<Heading>Users {viewProject}</Heading>
+			<Spacer/>
+
+		{userInput?
+		<>	
+			<Input placeholder='user email address' maxWidth='200px' onChange={(e)=>setUserSaveInput(e.target.value)}/>
+			<Button bg='#ffd600' onClick={()=>handleSaveUser() }>Save</Button>
+		</>
+		:<><Button bg='#ffd600' onClick={()=>setNewUserInput(true)}>Add new user</Button></>
+		
+		}
+		</Box>
 		<SimpleGrid columns={{ base: 2, sm:1,md:2,lg:4}} 
 		gap={{ base: '2'}}>
 
@@ -171,18 +239,6 @@ function AppBarUsersProjects() {
 			<></>
 		}
 
-<AppCardIntegration 
-			status='user'
-			description='kodok@gmail.com'/>
-<AppCardIntegration 
-			status='user'
-			description='kodok@gmail.com'/>
-			<AppCardIntegration 
-			status='user'
-			description='kodok@gmail.com'/>
-			<AppCardIntegration 
-			status='user'
-			description='kodok@gmail.com'/>
 		</SimpleGrid>
 		</Box>
 	</Box>
