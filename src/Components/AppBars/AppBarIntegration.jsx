@@ -58,6 +58,9 @@ function AppBarIntegration() {
 		<AppCardIntegration/>
 		<AppCardIntegration/>
 		<AppCardIntegration/>
+		<AppCardIntegration/>
+		<AppCardIntegration/>
+		<AppCardIntegration/>
 	</Box>
 	<Modal
         onClose={onClose}

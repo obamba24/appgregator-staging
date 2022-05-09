@@ -27,15 +27,8 @@ function MainLayout() {
         overflowY="auto"
       >
         {isDesktop ? <Sidebar /> : null}
-        <Box
-          direction={{
-            base: "row",
-            lg: "column",
-          }}
-          bg="bg-canvas"
-          flex="1"
-        >
-          <Navbar />
+        <Box as="section" height="100vh" overflowY="auto" flex={1}>
+          {/* <Navbar /> */}
           <Content />
         </Box>
       </Flex>

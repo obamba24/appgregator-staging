@@ -72,23 +72,7 @@ export const Navbar = () => {
     <Box as="nav" bg="#ffd600" color="on-accent" shadow="sm">
       <Container maxW="800px" p="2">
         <Flex justify="space-between">
-          <HStack spacing="4">
-            {isDesktop ? null : <Logo />}
-            {/* <Logo /> */}
-            {/* {isDesktop && (
-              <ButtonGroup variant="ghost-on-accent" spacing="1">
-                <Button>
-                  <Link to="/dashboard">Dashboard</Link>
-                </Button>
-                <Button>
-                  <Link to="/products">Products</Link>
-                </Button>
-                <Button>
-                  <Link to="/orders">Orders</Link>
-                </Button>
-              </ButtonGroup>
-            )} */}
-          </HStack>
+          <HStack spacing="4">{isDesktop ? null : <Logo />}</HStack>
           {isDesktop ? (
             <HStack spacing="4">
               {/* <ButtonGroup variant="ghost-on-accent" spacing="1">
