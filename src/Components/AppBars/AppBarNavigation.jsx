@@ -16,7 +16,7 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem,
+  MenuItem,Image,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { Link } from "react-router-dom";
@@ -73,7 +73,7 @@ export const Navbar = () => {
       <Container maxW="800px" p="2">
         <Flex justify="space-between">
           <HStack spacing="4">
-            {isDesktop ? null : <Logo />}
+            {isDesktop ? null : <Image src='https://imagedelivery.net/46JjFsbElfX2IL16wJFTCA/85568cee-eea2-4b62-7a68-afa7f6a51b00/thumbnail' width='200px'/>}
             {/* <Logo /> */}
             {/* {isDesktop && (
               <ButtonGroup variant="ghost-on-accent" spacing="1">
@@ -90,30 +90,31 @@ export const Navbar = () => {
             )} */}
           </HStack>
           {isDesktop ? (
-            <HStack spacing="4">
-              {/* <ButtonGroup variant="ghost-on-accent" spacing="1">
-                <Link to="/products/new">
-                  <IconButton
-                    icon={<FiPlusCircle fontSize="1.25rem" />}
-                    aria-label="Add Product"
-                  />
-                </Link>
-              </ButtonGroup> */}
-              {/* <Select variant="outline" placeholder={store.get("Project")}>
-                {projectSelector.map((project) => (
-                  <option value={project.projects}>{project.projects}</option>
-                ))}
-              </Select> */}
-              <Menu>
-                <MenuButton as={Avatar}></MenuButton>
-                <MenuList>
-                  {/* <MenuItem onClick={() => navigate("/setting")}>
-                    Setting
-                  </MenuItem> */}
-                  <MenuItem onClick={() => handleLogOut()}>Logout</MenuItem>
-                </MenuList>
-              </Menu>
-            </HStack>
+			  <></>
+            // <HStack spacing="4">
+            //   {/* <ButtonGroup variant="ghost-on-accent" spacing="1">
+            //     <Link to="/products/new">
+            //       <IconButton
+            //         icon={<FiPlusCircle fontSize="1.25rem" />}
+            //         aria-label="Add Product"
+            //       />
+            //     </Link>
+            //   </ButtonGroup> */}
+            //   {/* <Select variant="outline" placeholder={store.get("Project")}>
+            //     {projectSelector.map((project) => (
+            //       <option value={project.projects}>{project.projects}</option>
+            //     ))}
+            //   </Select> */}
+            //   <Menu>
+            //     <MenuButton as={Avatar}></MenuButton>
+            //     <MenuList>
+            //       {/* <MenuItem onClick={() => navigate("/setting")}>
+            //         Setting
+            //       </MenuItem> */}
+            //       <MenuItem onClick={() => handleLogOut()}>Logout</MenuItem>
+            //     </MenuList>
+            //   </Menu>
+            // </HStack>
           ) : (
             <>
               <ToggleButton

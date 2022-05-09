@@ -1,27 +1,105 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Box,
 	Heading,
 	SimpleGrid,useDisclosure,Button,
 	Stack, Flex, Center,useColorModeValue,Icon,
 	Text,ButtonGroup,IconButton, Image,
-	useColorModeValue as mode,
-	VisuallyHidden, Container, useBreakpointValue,Modal,Input,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalBody,
-	ModalCloseButton,
+	useColorModeValue as mode,Input,
+	Spinner,
   } from '@chakra-ui/react'
+import { doc, getDoc } from "firebase/firestore";
+import {db,auth} from "../../Config/firebase"
+import { Link } from 'react-router-dom';
 
 import { AppCardCategory } from "../AppComponents/AppCardCategory";
 import AppCardApps from "../AppComponents/AppCardApps";
 import AppCardIntegration from "../AppComponents/AppCardIntegration"
 
 function AppBarIntegration() {
-	const [title,setTitle]=useState('');
-	const { isOpen, onOpen, onClose } = useDisclosure()
+	const [data,setData]=useState('')
+	const [rawData,setRawData]=useState('')
+	const [integration,setIntegration]=useState('')
+	const [projects,setProjects]=useState();
+	const [viewProject,setViewProject]=useState();
+	const email = auth.currentUser.email;
+
+	const getData= async ()=>{
+		const docRef = doc(db, "appgregator_display", "app_list");
+		const docSnap = await getDoc(docRef);
+		if (docSnap.exists()) {
+			const data = docSnap.data();
+			setRawData(data.data)
+		  	setData(data.data)
+			
+		} else {
+		  console.log("No such document! here");
+		}
+	}
+
+	const getProjects=async()=>{
+		const docRef = doc(db, "appgregator_user", email);
+		const docSnap = await getDoc(docRef);
+		if (docSnap.exists()) {
+			const data = docSnap.data();
+			// console.log(data.projects, 'projects')
+		  	setProjects(data.projects)
+			  setViewProject(data.projects[0])
+			  getIntegration(data.projects[0])
+			  
+		} else {
+		  console.log("No such document! 2");
+		}
+	}
+
+	const handleSearch=(searchKeyword)=>{
+		var filteredData = rawData.filter(search => {
+			if (searchKeyword === '') {
+			  return search;
+			} else {
+			  return search.name.toLowerCase().includes(searchKeyword)
+			}
+		  })
+		setData(filteredData)
+	}
+
+	const getIntegration = async(data)=>{
+		const docRef = doc(db, "appgregator_projects", data);
+		setViewProject(data)
+		const docSnap = await getDoc(docRef);
+
+		if (docSnap.exists()) {
+			const data = docSnap.data();
+		  	// console.log("Document data:", Object.entries(data));
+		  	setIntegration(Object.entries(data))
+			
+		} else {
+		  console.log(data,"No such document! 3");
+		}
+	}
+
+	const getConnection = (data) =>{
+		// console.log(data)
+		if(integration){
+		const filtered = integration.filter(([key, value]) => key === data);
+		if (filtered.length>0)return filtered[0][1]
+		else return String(0)
+	}
+	else return String(0)
+	}
+	
+	useEffect(() => {
+		getData();
+		getProjects();
+		// getIntegration();
+	  return () => {
+		setData('')
+		setViewProject('')
+		// setIntegration('')
+		setProjects('')
+	  }
+	}, [])
+	
 
   return (
 
@@ -36,106 +114,47 @@ function AppBarIntegration() {
 		direction={{ base: 'column', md: 'row' }}
 	>
 		<Heading size="lg" mb={{ base: '3', md: '0' }}>
-		Appgregator integration
+		Appgregator integration - {viewProject}
 		</Heading>
-		<Box display='flex' flexDirection='column'>
-			<Button
-			size='md'
-			height='48px'
-			maxW='300px'
-			width='300px'
-			bg='yellow'
-			onClick={onOpen}
-			>
-			Add Integration
-			</Button>
-			<Input placeholder='search' width ='300px' maxW='300'/>
-		</Box>
-		
+		<Input placeholder='search' width ='300px' maxW='300' onChange={(e)=>handleSearch(e.target.value)}/>
 	</Flex>
-	<Box>
-		<AppCardIntegration/>
-		<AppCardIntegration/>
-		<AppCardIntegration/>
-		<AppCardIntegration/>
+	<Box display='flex' flexDirection='row'>
+		<Box p='5'>
+		<Heading>Projects</Heading>
+			{projects && integration?
+			projects.map((project) => (
+			<Text  key={Math.random()} fontSize='2xl' borderBottom='1px' onClick={()=>getIntegration(project)}>{project}</Text> 
+			))
+			:
+			<Spinner/>}
+		</Box>
+		<Box p='5'>
+			<SimpleGrid columns={{ base: 1}} gap={{ base: '4'}}>
+			{data?
+				data.map((data) => (
+					<Link key={Math.random()} to={`/integration/${data.name}`}>
+						<AppCardIntegration 
+						image={data.image} 
+						name={data.name}
+						status={data.status}
+						price={data.price}
+						description={data.description}
+						type={data.type}
+						connection={getConnection(data.name)}/>
+					</Link>
+				))
+				:
+				<Center>
+					<Spinner/>
+				</Center>}
+			</SimpleGrid>
+		</Box>
 	</Box>
-	<Modal
-        onClose={onClose}
-        isOpen={isOpen}
-        scrollBehavior='inside'
-      >
-		  <ModalOverlay
-      bg='blackAlpha.300'
-      backdropFilter='blur(10px) hue-rotate(90deg)'
-    />
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Search Apps <Input placeholder='search App' m='2'/></ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-			<AppCardApps/>
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
 </Box>
 
 
   );
 }
 
-const categories = [
-	{
-	  name: 'Finance',
-	  imageUrl:
-		'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZnVybml0dXJlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-	  url: '#',
-	  description:'this is a description of furniture'
-	},
-	{
-	  name: 'Accounting',
-	  imageUrl:
-		'https://images.unsplash.com/photo-1613317447829-eea2ed59640f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
-	  url: '#',
-	},
-	{
-	  name: 'e-commerce',
-	  imageUrl:
-		'https://images.unsplash.com/photo-1616627561950-9f746e330187?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80',
-	  url: '#',
-	},
-	{
-	  name: 'Lighting',
-	  imageUrl:
-		'https://images.unsplash.com/photo-1606170033648-5d55a3edf314?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1548&q=80',
-	  url: '#',
-	},
-	{
-	  name: 'Cookware',
-	  imageUrl:
-		'https://images.unsplash.com/photo-1583778176476-4a8b02a64c01?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
-	  url: '#',
-	},
-	{
-	  name: 'Rugs',
-	  imageUrl:
-		'https://images.unsplash.com/photo-1600166898405-da9535204843?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80',
-	  url: '#',
-	},
-	{
-	  name: 'Baby',
-	  imageUrl:
-		'https://images.unsplash.com/photo-1574175679797-9fc9eade1450?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGJhYnklMjB0b3lzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-	  url: '#',
-	},
-	{
-	  name: 'Flooring',
-	  imageUrl:
-		'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
-	  url: '#',
-	},
-  ]
 
 export default AppBarIntegration;

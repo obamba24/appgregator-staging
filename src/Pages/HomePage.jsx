@@ -9,7 +9,13 @@ import {
 	Stack, Flex, Center,useColorModeValue,Icon,
 	Text,ButtonGroup,IconButton, Image,
 	useColorModeValue as mode,
-	VisuallyHidden, Container, useBreakpointValue
+	VisuallyHidden, Container, useBreakpointValue,  Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,AspectRatio,
+	ModalCloseButton,useDisclosure
   } from '@chakra-ui/react'
   import * as React from 'react'
   import { FaPlay } from 'react-icons/fa'
@@ -20,11 +26,27 @@ import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { FaArrowRight } from 'react-icons/fa'
 import { AppCardCategory } from '../Components/AppComponents/AppCardCategory'
 import { Link } from "react-router-dom";
+import {auth} from "../Config/firebase"
+import { useEffect } from 'react'
+import { useState } from 'react'
 
-
-  
   function HomePage() {
+	const [email,setEmail]=useState('true');
+	const { isOpen, onOpen, onClose } = useDisclosure()
+	
+	const getEmail=async()=>{
+		setEmail(sessionStorage.getItem("Auth Token"))
+		// console.log(sessionStorage.getItem("Auth Token"))
+	}
+	useEffect(() => {
+		getEmail()
+	  return () => {
+		setEmail('')
+	  }
+	}, [])
+	
 	return (
+		<>
 	  <Box>
 		<Box as="section" bg="#ffd600" color="black" py="7.5rem">
 		  <Box
@@ -39,7 +61,11 @@ import { Link } from "react-router-dom";
 			}}
 		  >
 			<Box textAlign="center">
+				<Center>
+				<Image alignSelf='center' src='https://imagedelivery.net/46JjFsbElfX2IL16wJFTCA/85568cee-eea2-4b62-7a68-afa7f6a51b00/thumbnail' width='200px'/>
+				</Center>
 			  <Heading
+			  marginTop='5'
 				as="h1"
 				size="3xl"
 				fontWeight="extrabold"
@@ -66,28 +92,50 @@ import { Link } from "react-router-dom";
 			  spacing="4"
 			>
 			  <LightMode>
-				<Button
-				  as="a"
-				  href="#"
-				  size="lg"
-				  colorScheme="blue"
-				  px="8"
-				  fontWeight="bold"
-				  fontSize="md"
-				>
-				  <Link to="/signup">Sign Up</Link>
-				</Button>
-				<Button
-				  as="a"
-				  href="#"
-				  size="lg"
-				  colorScheme="green"
-				  px="8"
-				  fontWeight="bold"
-				  fontSize="md"
-				>
-				  <Link to="/login">Login</Link>
-				</Button>
+				  {email? <>
+					<Link to="/dashboard">
+						<Button
+						as="a"
+						href="#"
+						size="lg"
+						colorScheme="blue"
+						px="8"
+						fontWeight="bold"
+						fontSize="md"
+						>
+						Go To Dashboard
+						</Button>
+					</Link>
+					</>
+					:
+					<>
+						<Link to="/signup"><Button
+						as="a"
+						href="#"
+						size="lg"
+						colorScheme="blue"
+						px="8"
+						fontWeight="bold"
+						fontSize="md"
+						>
+						Sign Up
+						</Button>
+						</Link>
+						<Link to="/login">
+						<Button
+						as="a"
+						href="#"
+						size="lg"
+						colorScheme="green"
+						px="8"
+						fontWeight="bold"
+						fontSize="md"
+						>
+						Login
+						</Button>
+						</Link>
+					</>
+					}
 			  </LightMode>
 			</Stack>
   
@@ -107,7 +155,7 @@ import { Link } from "react-router-dom";
 				as="button"
 				bg="white"
 				shadow="lg"
-				color="blue.600"
+				color="white"
 				position="absolute"
 				top="50%"
 				left="50%"
@@ -119,7 +167,8 @@ import { Link } from "react-router-dom";
 				}}
 			  >
 				<VisuallyHidden>Play demo video</VisuallyHidden>
-				<FaPlay />
+				<Button onClick={onOpen} bg='red'><FaPlay /></Button>
+
 			  </Circle>
 			</Box>
 		  </Box>
@@ -191,9 +240,9 @@ import { Link } from "react-router-dom";
 				
 			</Flex>
 			<SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} gap={{ base: '4', md: '6', lg: '8' }}>
-				{categories.map((category) => (
+				{categories?categories.map((category) => (
 				<AppCardCategory key={category.name} category={category} />
-				))}
+				)):<></>}
 			</SimpleGrid>
 			</Stack>
 		</Box>
@@ -217,9 +266,9 @@ import { Link } from "react-router-dom";
 					</Center>
 				</Stack>
 				<SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} columnGap="8" rowGap="6">
-				{products.map((product, id) => (
+				{products?products.map((product, id) => (
 					<AppCardPricing key={id} product={product} />
-				))}
+				)):<></>}
 				</SimpleGrid>
 			</Stack>
 		</Box>
@@ -256,6 +305,28 @@ import { Link } from "react-router-dom";
 			</Container>
 		</Box>
 	  </Box>
+	  <Modal isOpen={isOpen} onClose={onClose} size='full'>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>What is Appgregator?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody bg='#ffd600' >
+			  
+		  	<AspectRatio ratio={16/9}>
+			<iframe
+				title='naruto'
+				src='https://www.youtube.com/embed/QhBnZ6NPOY0?autoplay=1'
+				allowFullScreen
+				allow='autoplay'
+			/>
+			</AspectRatio>
+			
+          </ModalBody>
+
+          
+        </ModalContent>
+      </Modal>
+	  </>
 	)
   }
 

@@ -11,6 +11,10 @@ import HomePage from "./Pages/HomePage";
 import AppgregatePage from "./Pages/AppgregatePage";
 import HistoryPage from "./Pages/HistoryPage";
 import IntegrationPlatformPage from "./Pages/IntegrationPlatformPage";
+import UsersProjectsPage from "./Pages/UsersProjectsPage";
+import BillingPage from "./Pages/BillingPage";
+import NewAppgregatorPage from "./Pages/NewAppgregatorPage"
+
 
 
 function App() {
@@ -24,14 +28,18 @@ function App() {
   return (
     <Routes>
       <>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="project" element={<SignUpProject />} />
+
+	  	<Route path="/" element={<HomePage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignUpPage />} />
+        <Route path="users" element={<UsersProjectsPage />} />
         <Route path="appgregate" element={<AppgregatePage />} />
+        <Route path="appgregate/new" element={<NewAppgregatorPage />} />
         <Route path="history" element={<HistoryPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
         <Route path="integration" element={<IntegrationPage />} />
+        <Route path="billing" element={<BillingPage />} />
+        <Route path="projects" element={<SignUpProject />} />
         <Route path="integration/:platform" element={<IntegrationPlatformPage />} />
 
         <Route

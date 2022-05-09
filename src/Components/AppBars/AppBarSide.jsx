@@ -1,5 +1,5 @@
-import { Divider, Flex, Spacer, Stack, Button,
-	Center,Progress } from "@chakra-ui/react";
+import { Divider, Flex,Text, Spacer, Stack, Button,
+	Center,Progress,Image } from "@chakra-ui/react";
 import * as React from "react";
 import {
   FiHelpCircle,
@@ -10,7 +10,7 @@ import {
   FiZap,
   FiServer,FiUsers,FiKey,FiDollarSign
 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { signOut } from "firebase/auth";
 import { auth } from "../../Config/firebase";
@@ -20,6 +20,7 @@ import { UserProfile } from "../AppComponents/UserProfile";
 
 export const Sidebar = () => {
   let navigate = useNavigate();
+  const email = auth.currentUser.email;
 
   const handleLogOut = () => {
     signOut(auth)
@@ -37,6 +38,8 @@ export const Sidebar = () => {
       bg="#ffd600"
       color="on-accent"
       overflowY="auto"
+	  height="full"  
+	  justifyContent="flex-end"
       maxW={{
         base: "full",
         sm: "xs",
@@ -58,11 +61,13 @@ export const Sidebar = () => {
           }}
           shouldWrapChildren
         >
-          <Logo />
+          <Image src='https://imagedelivery.net/46JjFsbElfX2IL16wJFTCA/85568cee-eea2-4b62-7a68-afa7f6a51b00/thumbnail'/>
           
           <Spacer/>
 		  	<Center>
-			  <Button width='100%' bg='green' color='white'>New Appgregation</Button>
+				<Link to='/appgregate/new'>
+			  		<Button width='100%' bg='green' color='white'>New Appgregator</Button>
+			  	</Link>
 			</Center>
           <Stack spacing="1">
             {/* <NavButton label="Home" icon={FiHome} /> */}
@@ -86,17 +91,13 @@ export const Sidebar = () => {
 			icon={FiRefreshCcw} 
 			onClick={() => navigate("/history")}/>
 
-            <NavButton label="User" 
+            <NavButton label="Users, Projects & API" 
 			icon={FiUsers} 
-			onClick={() => navigate("/history")}/>
-
-            <NavButton label="API key" 
-			icon={FiKey} 
-			onClick={() => navigate("/history")}/>
+			onClick={() => navigate("/users")}/>
 
             <NavButton label="Billing" 
 			icon={FiDollarSign} 
-			onClick={() => navigate("/history")}/>
+			onClick={() => navigate("/billing")}/>
           </Stack>
         </Stack>
         <Stack
@@ -106,16 +107,12 @@ export const Sidebar = () => {
           }}
         >
           <Stack spacing="1">
-            <NavButton label="Help" icon={FiHelpCircle} />
+            <NavButton label="API docs" icon={FiHelpCircle} />
             <NavButton label="Settings" icon={FiSettings} />
-            <Progress value={2000} max={10000} />
-
-			<Divider borderColor="bg-accent-subtle" />
 
 			<UserProfile
-            name="Christoph Winston"
             image="https://tinyurl.com/yhkm2ek8"
-            email="chris@chakra-ui.com"
+            email={email}
           />
             {/* <NavButton
               onClick={() => handleLogOut()}

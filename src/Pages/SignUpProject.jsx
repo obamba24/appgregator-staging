@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
-import { setDoc, serverTimestamp, doc } from "firebase/firestore";
+import { setDoc, serverTimestamp, doc, arrayUnion } from "firebase/firestore";
 import { db, auth } from "../Config/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { Logo } from "../Components/AppComponents/LogoComponent";
@@ -30,11 +30,16 @@ function SignUpProject() {
     try {
       const docRef = await setDoc(doc(db, "appgregator_projects", project), {
         projects: project,
-		master:[email],
-        user: [email],
-      });
-      console.log("Document written with ID: ", docRef);
-      navigate("/dashboard", { replace: true });
+		master:arrayUnion(email),
+        user: arrayUnion(email),
+		balance:0
+      }, { merge: true });
+	  console.log('email=',email)
+	  const userRef = await setDoc(doc(db, "appgregator_user", email), {
+        projects: arrayUnion(project)
+      }, { merge: true });
+      console.log("Document written with ID: ", docRef,userRef);
+      navigate("/users", { replace: true });
     } catch (e) {
       console.log("Error adding document: ", e);
     }
@@ -47,10 +52,9 @@ function SignUpProject() {
     >
       <Stack spacing="8">
         <Stack spacing="6">
-          <Logo />
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
             <Heading size={useBreakpointValue({ base: "xs", md: "sm" })}>
-              Create your first project
+              Create your project
             </Heading>
           </Stack>
         </Stack>
