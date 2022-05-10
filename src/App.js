@@ -14,6 +14,8 @@ import IntegrationPlatformPage from "./Pages/IntegrationPlatformPage";
 import UsersProjectsPage from "./Pages/UsersProjectsPage";
 import BillingPage from "./Pages/BillingPage";
 import NewAppgregatorPage from "./Pages/NewAppgregatorPage"
+import SettingPage from "./Pages/SettingPage";
+import VerifyEmail from "./Pages/VerifyEmail";
 
 
 
@@ -40,6 +42,8 @@ function App() {
         <Route path="integration" element={<IntegrationPage />} />
         <Route path="billing" element={<BillingPage />} />
         <Route path="projects" element={<SignUpProject />} />
+        <Route path="setting" element={<SettingPage />} />
+        <Route path="verify" element={<VerifyEmail />} />
         <Route path="integration/:platform" element={<IntegrationPlatformPage />} />
 
         <Route

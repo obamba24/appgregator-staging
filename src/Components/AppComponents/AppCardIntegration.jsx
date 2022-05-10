@@ -1,8 +1,9 @@
 import React from 'react'
 import { Box, Button,Center, Container, Image, Icon,
-	Heading,Stack, Text, Spacer,useColorModeValue, Badge } from '@chakra-ui/react'
+	Heading,Stack,IconButton, Text, Spacer,useColorModeValue, Badge } from '@chakra-ui/react'
 import { ArrowRightIcon,CheckIcon} from '@chakra-ui/icons'
 import { useParams } from 'react-router-dom'
+import {FiChevronsLeft,FiPlusCircle,FiMinusCircle} from "react-icons/fi";
 
 function AppCardIntegration(props) {
 
@@ -54,7 +55,8 @@ function AppCardIntegration(props) {
 			:
 			<></>}
 			<Box paddingLeft='2'>
-				<ArrowRightIcon/>
+			<IconButton aria-label='Back' bg='#ffd600' icon={<FiPlusCircle />} />
+
 			</Box>
       </Box>
   </Box>

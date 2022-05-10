@@ -15,19 +15,18 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
-import { setDoc, serverTimestamp, doc, arrayUnion } from "firebase/firestore";
+import { setDoc, doc, arrayUnion } from "firebase/firestore";
 import { db, auth } from "../Config/firebase";
-import { Link, useNavigate } from "react-router-dom";
-import { Logo } from "../Components/AppComponents/LogoComponent";
+import { useNavigate } from "react-router-dom";
 
 //belum ada validasi untuk cek nama project
 function SignUpProject() {
   const [project, setProject] = useState("");
-  const email = auth.currentUser.email;
   let navigate = useNavigate();
+  const email = auth.currentUser.email;
 
   const handleRegister = async () => {
-    try {
+    try {  
       const docRef = await setDoc(doc(db, "appgregator_projects", project), {
         projects: project,
 		master:arrayUnion(email),
@@ -35,11 +34,13 @@ function SignUpProject() {
 		balance:0
       }, { merge: true });
 	  console.log('email=',email)
+
 	  const userRef = await setDoc(doc(db, "appgregator_user", email), {
         projects: arrayUnion(project)
       }, { merge: true });
       console.log("Document written with ID: ", docRef,userRef);
       navigate("/users", { replace: true });
+
     } catch (e) {
       console.log("Error adding document: ", e);
     }
@@ -50,6 +51,7 @@ function SignUpProject() {
       py={{ base: "12", md: "24" }}
       px={{ base: "0", sm: "8" }}
     >
+
       <Stack spacing="8">
         <Stack spacing="6">
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">

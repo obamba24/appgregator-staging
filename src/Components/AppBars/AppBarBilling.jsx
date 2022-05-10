@@ -20,6 +20,7 @@ import { doc,query, getDoc,setDoc ,getDocs,limit,orderBy,collection} from "fireb
 import {db,auth,app} from "../../Config/firebase"
 import AppCardIntegration from '../AppComponents/AppCardIntegration';
 import { CheckCircleIcon } from '@chakra-ui/icons'
+import { Navigate } from 'react-router-dom';
 
 function AppBarBilling() {
 	const [projects,setProjects]=useState();
@@ -28,6 +29,8 @@ function AppBarBilling() {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
 	const currentUser=auth.currentUser;
+	// const Navigate=useNavigate();
+
 	const getProjects=async()=>{
 		const docRef = doc(db, "appgregator_user", currentUser.email);
 		const docSnap = await getDoc(docRef);
@@ -65,8 +68,9 @@ function AppBarBilling() {
 					getDocs(q)
 					.then(apiSnap=>
 						apiSnap.forEach((doc) => {
-						console.log(doc.id, " => ", doc.data());
-						window.location.assign(doc.data().url);
+						console.log(doc.id, " => ", doc.data(),'ini data checkout');
+						// window.location.assign(doc.data().url);
+						// return (<Navigate to={{ pathname: doc.data().url }} />)
 					})
 					);
 					setLoadCheckout(false)

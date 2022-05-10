@@ -16,7 +16,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword,sendEmailVerification } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { auth, db } from "../Config/firebase";
@@ -24,7 +24,6 @@ import { Logo } from "../Components/AppComponents/LogoComponent";
 import { OAuthButtonGroup } from "../Components/AppComponents/OAuthButtonApp";
 
 function LoginPage() {
-  var store = require("store");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +32,7 @@ function LoginPage() {
 
   const onHandleLogin = (e) => {
     if (email !== "" && password !== "") {
-      //   console.log(email+'  ' +auth)
+		let isAuth=false;
       signInWithEmailAndPassword(auth, email, password)
         .then((response) => {
           sessionStorage.setItem(
@@ -42,9 +41,25 @@ function LoginPage() {
           );
           console.log(sessionStorage.getItem("Auth Token"));
         })
-        .then(() => navigate("/dashboard", { replace: true }))
+        .then(() => isAuth=true)
+		.then ((isAuth)=>{ 
+			console.log(isAuth,'isauth')
+			if(isAuth && auth.currentUser.emailVerified) 
+			navigate("/projects", { replace: true });
+		else if (isAuth && !auth.currentUser.emailVerified){
+			sendEmailVerification(auth.currentUser)
+			navigate("/verify", { replace: true })
+		}
+		else{
+			// return console.log(isAuth,auth.currentUser.emailVerified,'its here')
+			navigate("/dashboard", { replace: true })
+		}
+	})
         .catch((err) => alert("Error", err.message));
+
+		
     }
+	
   };
   return (
     <Container

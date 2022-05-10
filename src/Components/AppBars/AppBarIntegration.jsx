@@ -6,14 +6,16 @@ import {
 	Stack, Flex, Center,useColorModeValue,Icon,
 	Text,ButtonGroup,IconButton, Image,
 	useColorModeValue as mode,Input,
-	Spinner,
+	Spinner,  Accordion,
+	AccordionItem,
+	AccordionButton,
+	AccordionPanel,
+	AccordionIcon,
   } from '@chakra-ui/react'
 import { doc, getDoc } from "firebase/firestore";
 import {db,auth} from "../../Config/firebase"
 import { Link } from 'react-router-dom';
 
-import { AppCardCategory } from "../AppComponents/AppCardCategory";
-import AppCardApps from "../AppComponents/AppCardApps";
 import AppCardIntegration from "../AppComponents/AppCardIntegration"
 
 function AppBarIntegration() {
@@ -81,6 +83,7 @@ function AppBarIntegration() {
 	const getConnection = (data) =>{
 		// console.log(data)
 		if(integration){
+			console.log(integration)
 		const filtered = integration.filter(([key, value]) => key === data);
 		if (filtered.length>0)return filtered[0][1]
 		else return String(0)
@@ -131,7 +134,7 @@ function AppBarIntegration() {
 		<Box p='5'>
 			<SimpleGrid columns={{ base: 1}} gap={{ base: '4'}}>
 			{data?
-				data.map((data) => (
+				data.map((data) => (<><Box>
 					<Link key={Math.random()} to={`/integration/${data.name}`}>
 						<AppCardIntegration 
 						image={data.image} 
@@ -142,6 +145,25 @@ function AppBarIntegration() {
 						type={data.type}
 						connection={getConnection(data.name)}/>
 					</Link>
+					{getConnection(data.name)>0?
+					<Accordion bg='gray.50' allowMultiple marginTop='-5'>
+						<AccordionItem >
+							<h2>
+							<AccordionButton>
+								<Box flex='1' textAlign='left'>
+								{getConnection(data.name)} Connection
+								</Box>
+								<AccordionIcon />
+							</AccordionButton>
+							</h2>
+							<AccordionPanel pb={4}>
+							Connection Name here
+							</AccordionPanel>
+						</AccordionItem>
+						</Accordion>
+						:<></>}
+</Box>
+					</>
 				))
 				:
 				<Center>

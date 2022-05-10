@@ -29,7 +29,7 @@ export const Sidebar = () => {
         navigate("/", { replace: true });
       })
       .catch((error) => {
-        // An error happened.
+        console.log(error)
       });
   };
   return (
@@ -108,17 +108,14 @@ export const Sidebar = () => {
         >
           <Stack spacing="1">
             <NavButton label="API docs" icon={FiHelpCircle} />
-            <NavButton label="Settings" icon={FiSettings} />
-
+            <NavButton label="Settings" icon={FiSettings} onClick={() => navigate("/setting")}/>
+            <NavButton
+              onClick={() => handleLogOut()} label="Logout" icon={FiLogOut}
+            />
 			<UserProfile
             image="https://tinyurl.com/yhkm2ek8"
             email={email}
           />
-            {/* <NavButton
-              onClick={() => handleLogOut()}
-              label="Logout"
-              icon={FiLogOut}
-            /> */}
           </Stack>
         </Stack>
       </Stack>

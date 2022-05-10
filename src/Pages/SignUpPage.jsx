@@ -8,21 +8,20 @@ import {
   HStack,
   Input,
   Stack,
-  Text,
-  useBreakpointValue,
+  Text,Box
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword ,sendEmailVerification} from "firebase/auth";
 import { auth } from "../Config/firebase";
 import { useNavigate } from "react-router-dom";
 
 import { Logo } from "../Components/AppComponents/LogoComponent";
-import { GoogleIcon } from "../Components/AppComponents/ProviderIconsApp";
 
 function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmationPassword, setConfirmationPassword] = useState("");
+  const [emailVerification,setEmailVerification]=useState(false)
 
   let navigate = useNavigate();
 
@@ -39,17 +38,20 @@ function SignUpPage() {
         );
         // console.log(sessionStorage.getItem('Auth Token'))
       })
-      .then(() => navigate("/project", { replace: true }))
+	  .then(()=> sendEmailVerification(auth.currentUser)
+	  .then(() => setEmailVerification(true)))
       .catch((error) => alert(error.message));
   };
 
   return (
     <Container maxW="md" py={{ base: "12", md: "24" }}>
+	{emailVerification?<>
       <Stack spacing="8">
         <Stack spacing="6" align="center">
           <Logo />
           <Stack spacing="3" textAlign="center">
-            <Heading size={useBreakpointValue({ base: "xs", md: "sm" })}>
+			  
+            <Heading>
               Create an account
             </Heading>
             <Text color="muted">Start making your dreams come true</Text>
@@ -92,13 +94,6 @@ function SignUpPage() {
             <Button variant="primary" onClick={() => onHandleRegister()}>
               Create account
             </Button>
-            <Button
-              variant="secondary"
-              leftIcon={<GoogleIcon boxSize="5" />}
-              iconSpacing="3"
-            >
-              Sign up with Google
-            </Button>
           </Stack>
         </Stack>
         <HStack justify="center" spacing="1">
@@ -109,7 +104,15 @@ function SignUpPage() {
             Log in
           </Button>
         </HStack>
+		
       </Stack>
+	  </>:
+		<>
+		<Box>
+			<Heading>Please check your email address to confirm.</Heading>
+			<Text>Once confirmed, you can starg playing with our appgregator</Text>
+			</Box>
+		</>}
     </Container>
   );
 }
