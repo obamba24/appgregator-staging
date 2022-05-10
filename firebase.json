@@ -1,20 +1,15 @@
 {
 	"hosting": {
 		"public": "build",
+		"site":"appgregator",
 		"ignore": [
 		  "firebase.json",
 		  "*/.",
 		  "*/node_modules/*"
 		],
 		"rewrites": [ {
-			"source": "**",
-			"destination": "/index.html"
-		  }, {
-			"source": "/foo{,/**}",
-			"destination": "/index.html"
-		  }, {
-			"source": "!/@(js|css)/**",
-			"destination": "/index.html"
+			"source": "/**",
+			"dynamicLinks": true
 		  } ]
 	},
   "emulators": {

@@ -17,8 +17,6 @@ import NewAppgregatorPage from "./Pages/NewAppgregatorPage"
 import SettingPage from "./Pages/SettingPage";
 import VerifyEmail from "./Pages/VerifyEmail";
 
-
-
 function App() {
   const [status, setStatus] = useState("");
   const [auth, setAuth] = useState("");
@@ -30,7 +28,6 @@ function App() {
   return (
     <Routes>
       <>
-
 	  	<Route path="/" element={<HomePage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignUpPage />} />
@@ -45,7 +42,6 @@ function App() {
         <Route path="setting" element={<SettingPage />} />
         <Route path="verify" element={<VerifyEmail />} />
         <Route path="integration/:platform" element={<IntegrationPlatformPage />} />
-
         <Route
           path="*"
           element={

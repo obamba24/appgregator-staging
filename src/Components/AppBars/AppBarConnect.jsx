@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Sendgrid from '../AppBarIntegration/Sendgrid';
 import Midtrans from '../AppBarIntegration/Midtrans';
+import Facebook from '../AppBarIntegration/Facebook'
 
 function AppBarConnect() {
 	const param = useParams();
@@ -17,6 +18,7 @@ function AppBarConnect() {
 		if (!param.platform) return <Spinner/>
 		if(param.platform=='sendgrid') return <Sendgrid/>;
 		if(param.platform=='midtrans') return <Midtrans/>;
+		if(param.platform=='facebook') return <Facebook/>;
 
 		return <Text>There is no such integration</Text>
 	}

@@ -45,14 +45,15 @@ function LoginPage() {
 		.then ((isAuth)=>{ 
 			console.log(isAuth,'isauth')
 			if(isAuth && auth.currentUser.emailVerified) 
-			navigate("/projects", { replace: true });
+			navigate("/dashboard", { replace: true })
+			// navigate("/projects", { replace: true });
 		else if (isAuth && !auth.currentUser.emailVerified){
 			sendEmailVerification(auth.currentUser)
 			navigate("/verify", { replace: true })
 		}
 		else{
+			console.log('else')
 			// return console.log(isAuth,auth.currentUser.emailVerified,'its here')
-			navigate("/dashboard", { replace: true })
 		}
 	})
         .catch((err) => alert("Error", err.message));
