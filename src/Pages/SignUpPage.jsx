@@ -23,10 +23,10 @@ function SignUpPage() {
   const [confirmationPassword, setConfirmationPassword] = useState("");
   const [emailVerification,setEmailVerification]=useState(false)
 
-  let navigate = useNavigate();
+//   let navigate = useNavigate();
 
   const onHandleRegister = () => {
-    if (password != confirmationPassword) {
+    if (password !== confirmationPassword) {
       console.log("Password and confirmation is not match");
       return "";
     }
@@ -45,12 +45,11 @@ function SignUpPage() {
 
   return (
     <Container maxW="md" py={{ base: "12", md: "24" }}>
-	{emailVerification?<>
+	{!emailVerification?<>
       <Stack spacing="8">
         <Stack spacing="6" align="center">
           <Logo />
           <Stack spacing="3" textAlign="center">
-			  
             <Heading>
               Create an account
             </Heading>

@@ -18,7 +18,7 @@ import {
   MenuList,
   MenuItem,Image,
 } from "@chakra-ui/react";
-import * as React from "react";
+import React, {useEffect,useState} from "react";
 import { Link } from "react-router-dom";
 
 import { FiPlusCircle } from "react-icons/fi";
@@ -30,11 +30,10 @@ import { auth, db } from "../../Config/firebase";
 import { useNavigate } from "react-router-dom";
 import { collection, doc, where } from "firebase/firestore";
 import { get } from "store";
-import { useState } from "react";
 
 export const Navbar = () => {
   var store = require("store");
-  const userEmail = auth.currentUser.email;
+  const [userEmail,setUserEmail]=useState();
   const [projectSelector, setProjectSelector] = useState([]);
 
   const isDesktop = useBreakpointValue({
@@ -67,6 +66,20 @@ export const Navbar = () => {
         // An error happened.
       });
   };
+
+  const getAuth=async()=>{
+	await setUserEmail(auth.currentUser.email);
+
+  }
+
+  useEffect(() => {
+	getAuth()
+  
+	return () => {
+	  
+	}
+  }, [])
+  
 
   return (
     <Box as="nav" bg="#ffd600" color="on-accent" shadow="sm">

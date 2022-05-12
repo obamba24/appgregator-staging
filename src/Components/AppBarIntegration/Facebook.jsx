@@ -64,8 +64,10 @@ useEffect(() => {
 	<Box m='2'>
 		<Box>
 			<Center>
-			{authResponse?
+			{!authResponse?<>
+			<Text>Kodok</Text>
 			<Button onClick={()=>FBLogout()} bg="#ffd600">Disconnect from Facebook</Button>
+			</>
 			:
 			<Button onClick={()=>FBLogin()} bg="#ffd600">Connect to Facebook</Button>
 			}

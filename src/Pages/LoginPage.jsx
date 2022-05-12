@@ -47,7 +47,7 @@ function LoginPage() {
 			if(isAuth && auth.currentUser.emailVerified) 
 			navigate("/dashboard", { replace: true })
 			// navigate("/projects", { replace: true });
-		else if (isAuth && !auth.currentUser.emailVerified){
+		else if (!isAuth && !auth.currentUser.emailVerified){
 			sendEmailVerification(auth.currentUser)
 			navigate("/verify", { replace: true })
 		}
@@ -57,8 +57,6 @@ function LoginPage() {
 		}
 	})
         .catch((err) => alert("Error", err.message));
-
-		
     }
 	
   };

@@ -5,7 +5,9 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import * as React from "react";
+import { auth } from "../../Config/firebase";
+
+import React,{useState,useEffect} from "react";
 import { Navbar } from "../AppBars/AppBarNavigation";
 import { Sidebar } from "../AppBars/AppBarSide";
 
@@ -15,6 +17,19 @@ function MainLayout() {
     lg: true,
   });
   const AppLayout = (Content) => {
+	const [email,setEmail]  =useState();
+	  const getEmail=async ()=>{
+		await setEmail(auth.currentUser.email)
+		console.log(email)
+	  }
+	
+	useEffect(() => {
+	  getEmail()
+
+	
+	}, [])
+	
+
     return (
       <Flex height='100vh'
       >
@@ -25,16 +40,13 @@ function MainLayout() {
 		: 
 		null}
         <Box
-          direction={{
-            base: "row",
-            lg: "column",
-          }}
+          direction={{base: "row",lg: "column",}}
           bg="bg-canvas"
           flex="1"
 		  overflowY="auto"
         >
           	<Navbar />
-		 <Content />
+		 	<Content />
 		  </Box>
         
       </Flex>

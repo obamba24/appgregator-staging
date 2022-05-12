@@ -1,6 +1,6 @@
 import { Divider, Flex,Text, Spacer, Stack, Button,
 	Center,Progress,Image } from "@chakra-ui/react";
-import * as React from "react";
+import React, {useEffect,useState} from "react";
 import {
   FiHelpCircle,
   FiHome,
@@ -8,19 +8,18 @@ import {
   FiLogOut,
   FiRefreshCcw,
   FiZap,
-  FiServer,FiUsers,FiKey,FiDollarSign
+  FiServer,FiUsers,FiDollarSign
 } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 
 import { signOut } from "firebase/auth";
 import { auth } from "../../Config/firebase";
 import { NavButton } from "../AppComponents/AppButtonNavBar";
-import { Logo } from "../AppComponents/LogoComponent";
 import { UserProfile } from "../AppComponents/UserProfile";
 
 export const Sidebar = () => {
+	const [email,setEmail]=useState();
   let navigate = useNavigate();
-  const email = auth.currentUser.email;
 
   const handleLogOut = () => {
     signOut(auth)
@@ -32,6 +31,20 @@ export const Sidebar = () => {
         console.log(error)
       });
   };
+
+  const getEmail=async ()=>{
+	await setEmail(auth.currentUser.email)
+  }
+
+  useEffect(() => {
+	getEmail()
+	return () => {
+	  
+	}
+  }, [])
+  
+
+
   return (
     <Flex
       flex="1"

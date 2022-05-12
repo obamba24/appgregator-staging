@@ -3,7 +3,7 @@ import { Text,Box, Spinner ,Heading,Badge,SimpleGrid,Alert,
 	AlertIcon,
  Button, Spacer, Input} from '@chakra-ui/react';
 import axios from 'axios'
-import { doc, getDoc,getDocs,orderBy,query,where,serverTimestamp,collection,setDoc, arrayUnion, limit} from "firebase/firestore";
+import { doc, getDoc,getDocs,updateDoc,orderBy,query,arrayRemove,serverTimestamp,collection,setDoc, arrayUnion, limit} from "firebase/firestore";
 import {db,auth} from "../../Config/firebase"
 import AppCardIntegration from '../AppComponents/AppCardIntegration';
 import { Link } from 'react-router-dom';
@@ -24,25 +24,29 @@ function AppBarUsersProjects() {
 
 	const messaging = getMessaging();
 				onMessage(messaging, (payload) => {
-				console.log('Message received. ', payload);
+				// console.log('Message received. ', payload);
 				// ...
 				});
-
-
 	const handleRefresh=async()=>{
 		//get from cloud function new api key
 		setApiSpinner(true)
 		axios.get('https://us-central1-appgregator.cloudfunctions.net/createApiKey')
       .then(res => {
-		// console.log('apikey=',res)
 		setApiSpinner(false)
-		setApiKey(res.data)
 		return res
       })
 	  .then(api=>{
 		 const time = Math.floor(Date.now() / 1000);
 		 try{
-		  const apiRef = setDoc(doc(db, `appgregator_api_key`, email), {
+			if(apiKey!=='NO API KEY YET, please create a new API key'){
+			}
+			const removeApi=updateDoc(doc(db, `appgregator_api_key`, email), {
+			api:arrayRemove(apiKey),
+			project_api:arrayRemove(viewProject+'_'+apiKey)
+			},{ merge: true });
+
+			if(removeApi){
+		  	const apiRef = setDoc(doc(db, `appgregator_api_key`, email), {
 			api : arrayUnion(api.data),
 			project:arrayUnion(viewProject),
 			project_api:arrayUnion(viewProject+'_'+api.data),
@@ -58,10 +62,10 @@ function AppBarUsersProjects() {
 			time:time
 		  }, { merge: true });
 		}
+		setApiKey(api.data)
 		  return docRef;
-	}
+	}}
 	catch(error){ console.log(error)}
-		
 		})
 		.then(docref=>{console.log('Updated API Key')})
 	  	.catch((error)=> console.log(error,'error'))
@@ -135,8 +139,7 @@ function AppBarUsersProjects() {
 			  const userRef = await setDoc(doc(db, "appgregator_user", userSaveInput), {
 				projects: arrayUnion(viewProject)
 			  }, { merge: true });
-			  console.log("Document written with ID: ", docRef,userRef);
-
+			//   console.log("Document written with ID: ", docRef,userRef);
 			  getAdminStatus(viewProject)
 			  //should show notification here
 			  setAlert(
@@ -165,7 +168,6 @@ function AppBarUsersProjects() {
   <Box p={'5'} display='flex' flexDirection='row' >
 	  <Box p='5' height='100%'alignContent='space-between'>
 		  <Box>
-		  
 		  <Heading>Projects</Heading>
 			{projects?	
 			projects.map((project) => (
@@ -216,14 +218,16 @@ function AppBarUsersProjects() {
 		<Box display='flex' flexDirection='row' >
 			<Heading>Users {viewProject}</Heading>
 			<Spacer/>
-
-		{userInput?
-		<>	
-			<Input placeholder='user email address' maxWidth='200px' onChange={(e)=>setUserSaveInput(e.target.value)}/>
-			<Button bg='#ffd600' onClick={()=>handleSaveUser() }>Save</Button>
-		</>
-		:<><Button bg='#ffd600' onClick={()=>setNewUserInput(true)}>Add new user</Button></>
-		
+		{master===email?
+			userInput?
+			<>	
+				<Input placeholder='user email address' maxWidth='200px' onChange={(e)=>setUserSaveInput(e.target.value)}/>
+				<Button bg='#ffd600' onClick={()=>handleSaveUser() }>Save</Button>
+			</>
+			:
+			<><Button bg='#ffd600' onClick={()=>setNewUserInput(true)}>Add new user</Button></>
+		:
+		<></>
 		}
 		</Box>
 		<SimpleGrid columns={{ base: 2, sm:1,md:2,lg:3}} 
